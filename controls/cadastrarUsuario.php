@@ -1,9 +1,7 @@
 <?php
+include_once '../models/conexao.php';
 
-include_once '..\models\conexao.php';
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['nome'];
     $user = $_POST['nome_de_usuario'];
     $email = $_POST['email'];
@@ -11,12 +9,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $telefone = $_POST['telefone'];
     $cargo = $_POST['tipo'];
 
-    $sql = "INSERT INTO usuarios (nome, nome_de_usuario, email, senha, telefone, tipo) VALUES ('$nome','$use', '$email', '$senha', '$telefone', '$cargo')";
-    $resultado = mysqli_query($con, $sql);
-    if($resultado == true){
+    $sql = "INSERT INTO usuarios (nome, nome_de_usuario, email, senha, telefone, tipo) VALUES ('$nome','$user', '$email', '$senha', '$telefone', '$cargo')";
+    $resultado = mysqli_query($conn, $sql);
+    if ($resultado) {
         echo "Cadastrado com Sucesso!!";
-    }else{
-        echo "Erro ao Cadastrar: " . mysqli_error($con);
+    } else {
+        echo "Erro ao Cadastrar: " . mysqli_error($conn);
     }
 }
 ?>
