@@ -101,8 +101,8 @@
                       <div class="form-group">
                         <label for="tipo">Tipo</label>
                         <select class="form-control" id="tipo" name="tipo">
-                          <option value="admin">Admin</option>
-                          <option value="user">User</option>
+                          <option value="admin">Administrador</option>
+                          <option value="user">Técnico</option>
                         </select>
                       </div>
                       <button type="submit" class="btn btn-primary">Salvar</button>
