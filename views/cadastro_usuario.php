@@ -1,15 +1,4 @@
-<<<<<<< HEAD
-<?php 
-
-//include_once 'menu.html'; 
-
-?>
-
-
-=======
->>>>>>> ad86b975e1d55dbd3da221bdaa713b9f493a8a74
-
-<?php include_once 'menu.html'?>
+<?php include_once 'menu.html';?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -30,9 +19,9 @@
             <?php
             if (isset($_GET['status'])) {
                 if ($_GET['status'] == 'success') {
-                    echo '<div class="alert alert-success" role="alert">Operação realizada com sucesso!!</div>';
+                    echo '<div class="alert alert-success" style="display: inline-block" role="alert">Operação realizada com sucesso!!</div>';
                 } else if ($_GET['status'] == 'error') {
-                    echo '<div class="alert alert-danger" role="alert">Erro ao realizar a operação</div>';
+                    echo '<div class="alert alert-danger" style="display: inline-block" role="alert">Erro ao realizar a operação</div>';
                 }
             }
             ?>
@@ -111,8 +100,8 @@
                       <div class="form-group">
                         <label for="tipo">Tipo</label>
                         <select class="form-control" id="tipo" name="tipo">
-                          <option value="admin">Administrador</option>
-                          <option value="user">Técnico</option>
+                          <option value="Administrador">Administrador</option>
+                          <option value="Técnico">Técnico</option>
                         </select>
                       </div>
                       <button type="submit" class="btn btn-primary">Salvar</button>

@@ -1,3 +1,4 @@
+<?php include_once 'menu.html';?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -18,9 +19,9 @@
             <?php
             if (isset($_GET['status'])) {
                 if ($_GET['status'] == 'success') {
-                    echo '<div class="alert alert-success" role="alert">Operação realizada com sucesso!!</div>';
+                    echo '<div class="alert alert-success" style="display: inline-block" role="alert">Operação realizada com sucesso!!</div>';
                 } else if ($_GET['status'] == 'error') {
-                    echo '<div class="alert alert-danger" role="alert">Erro ao realizar a operação</div>';
+                    echo '<div class="alert alert-danger" style="display: inline-block" role="alert">Erro ao realizar a operação</div>';
                 }
             }
             ?>
