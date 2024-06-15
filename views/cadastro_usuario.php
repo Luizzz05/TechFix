@@ -6,7 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Usuários</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .table {
+            margin-top: 20px;
+        }
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
@@ -14,42 +46,45 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="text-center">Usuários</h1>
-            <button class="btn btn-primary float-end" data-toggle="modal" data-target="#exampleModal" onclick="clearForm()">Adicionar Novo Usuário</button>
+            <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clearForm()">Adicionar Novo Usuário</button>
             
             <?php
             if (isset($_GET['status'])) {
                 if ($_GET['status'] == 'success') {
-                    echo '<div class="alert alert-success" style="display: inline-block" role="alert">Operação realizada com sucesso!!</div>';
+                    echo '<div class="alert alert-success" style="display: inline-block" role="alert">Operação realizada com sucesso!</div>';
                 } else if ($_GET['status'] == 'error') {
                     echo '<div class="alert alert-danger" style="display: inline-block" role="alert">Erro ao realizar a operação</div>';
                 }
             }
             ?>
 
-            <table class='table'>
-                <tr>
-                    <th>Nome</th>
-                    <th>Nome de Usuario</th>
-                    <th>Email</th>
-                    <th>Telefone</th>
-                    <th>Tipo</th>
-                    <th>Ações</th>
-                </tr>
+            <table class='table table-striped'>
+                <thead>
+                    <tr>
+                        <th class="text-center">Nome</th>
+                        <th class="text-center">Nome de Usuário</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Telefone</th>
+                        <th class="text-center">Cargo</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
                 <?php 
                 include_once '../models/conexao.php';
                 $sql = "SELECT * FROM usuarios";
                 $resultado = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($resultado) > 0) {
                     while ($row = mysqli_fetch_assoc($resultado)) {
-                        echo "<tr'>";
-                        echo "<td>" . $row['nome'] . "</td>";
-                        echo "<td>" . $row['nome_de_usuario'] . "</td>";
-                        echo "<td>" . $row['email'] . "</td>";
-                        echo "<td>" . $row['telefone'] . "</td>";
-                        echo "<td>" . $row['tipo'] . "</td>";
+                        echo "<tr>";
+                      echo "<td 'class=text-center'>" . $row['nome'] . "</td>";
+                        echo "<td 'class=text-center'>" . $row['nome_de_usuario'] . "</td>";
+                        echo "<td 'class=text-center'>" . $row['email'] . "</td>";
+                        echo "<td 'class=text-center'>" . $row['telefone'] . "</td>";
+                        echo "<td 'class=text-center'>" . $row['tipo'] . "</td>";
                         echo "<td>";
-                        echo "<button class='btn btn-info' data-toggle='modal' data-target='#exampleModal' onclick='editUser(" . json_encode($row) . ")'>Atualizar</button> ";
-                        echo "<form action='../controls/cadastrarUsuario.php' method='POST' style='display:inline-block;'>";
+                        echo "<button class='btn btn-info' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editUser(" . json_encode($row) . ")'>Atualizar</button> ";
+                        echo "<form action='../controls/cadastrarUsuario.php' method='POST' class='d-inline'>";
                         echo "<input type='hidden' name='id_usuarios' value='" . $row['id_usuarios'] . "'>";
                         echo "<input type='hidden' name='action' value='delete'>";
                         echo "<button type='submit' class='btn btn-danger' onclick='return confirm(\"Tem certeza que deseja excluir este usuário?\")'>Excluir</button>";
@@ -61,45 +96,44 @@
                     echo "<tr><td colspan='6'>Nenhum dado encontrado</td></tr>";
                 }
                 ?>
+                </tbody>
             </table>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Adicionar Novo Usuário</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                  <form id="userForm" action="../controls/cadastrarUsuario.php" method="POST">
+                    <form id="userForm" action="../controls/cadastrarUsuario.php" method="POST">
                       <input type="hidden" id="id_usuarios" name="id_usuarios">
                       <input type="hidden" id="action" name="action" value="add">
-                      <div class="form-group">
-                        <label for="nome">Nome</label>
+                      <div class="mb-3">
+                        <label for="nome" class="form-label">Nome</label>
                         <input type="text" class="form-control" id="nome" name="nome" required>
                       </div>
-                      <div class="form-group">
-                        <label for="nome_de_usuario">Nome de Usuario</label>
+                      <div class="mb-3">
+                        <label for="nome_de_usuario" class="form-label">Nome de Usuário</label>
                         <input type="text" class="form-control" id="nome_de_usuario" name="nome_de_usuario" required>
                       </div>
-                      <div class="form-group">
-                        <label for="email">Email</label>
+                      <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                       </div>
-                      <div class="form-group">
-                        <label for="senha">Senha</label>
+                      <div class="mb-3">
+                        <label for="senha" class="form-label">Senha</label>
                         <input type="password" class="form-control" id="senha" name="senha" required>
                       </div>
-                      <div class="form-group">
-                        <label for="telefone">Telefone</label>
+                      <div class="mb-3">
+                        <label for="telefone" class="form-label">Telefone</label>
                         <input type="text" class="form-control" id="telefone" name="telefone" required>
                       </div>
-                      <div class="form-group">
-                        <label for="tipo">Tipo</label>
-                        <select class="form-control" id="tipo" name="tipo">
+                      <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select class="form-select" id="tipo" name="tipo">
                           <option value="Administrador">Administrador</option>
                           <option value="Técnico">Técnico</option>
                         </select>
@@ -108,7 +142,7 @@
                     </form>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                   </div>
                 </div>
               </div>
@@ -117,14 +151,16 @@
     </div>
 </div>
 
-<!-- jQuery and Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 
 <script>
 function clearForm() {
     document.getElementById('userForm').reset();
     document.getElementById('action').value = 'add';
+    document.getElementById('exampleModalLabel').innerText = 'Adicionar Novo Usuário';
 }
 
 function editUser(user) {
