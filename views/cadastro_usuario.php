@@ -7,38 +7,6 @@
     <title>Usuários</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        .table {
-            margin-top: 20px;
-        }
-        .modal-header {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        .btn-danger {
-            background-color: #dc3545;
-            border: none;
-        }
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-        .alert {
-            margin-top: 20px;
-        }
-    </style>
 </head>
 <body>
 
@@ -51,18 +19,18 @@
             <?php
             if (isset($_GET['status'])) {
                 if ($_GET['status'] == 'success') {
-                    echo '<div class="alert alert-success" style="display: inline-block" role="alert">Operação realizada com sucesso!</div>';
+                    echo '<div class="alert alert-success" style="display: inline-block" role="alert">Operação realizada com sucesso!!</div>';
                 } else if ($_GET['status'] == 'error') {
                     echo '<div class="alert alert-danger" style="display: inline-block" role="alert">Erro ao realizar a operação</div>';
                 }
             }
             ?>
 
-            <table class='table table-striped'>
+            <table class='table rounded-table'>
                 <thead>
                     <tr>
                         <th class="text-center">Nome</th>
-                        <th class="text-center">Nome de Usuário</th>
+                        <th class="text-center">Nome de Usuario</th>
                         <th class="text-center">Email</th>
                         <th class="text-center">Telefone</th>
                         <th class="text-center">Cargo</th>
@@ -70,32 +38,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php 
-                include_once '../models/conexao.php';
-                $sql = "SELECT * FROM usuarios";
-                $resultado = mysqli_query($conn, $sql);
-                if (mysqli_num_rows($resultado) > 0) {
-                    while ($row = mysqli_fetch_assoc($resultado)) {
-                        echo "<tr>";
-                      echo "<td 'class=text-center'>" . $row['nome'] . "</td>";
-                        echo "<td 'class=text-center'>" . $row['nome_de_usuario'] . "</td>";
-                        echo "<td 'class=text-center'>" . $row['email'] . "</td>";
-                        echo "<td 'class=text-center'>" . $row['telefone'] . "</td>";
-                        echo "<td 'class=text-center'>" . $row['tipo'] . "</td>";
-                        echo "<td>";
-                        echo "<button class='btn btn-info' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editUser(" . json_encode($row) . ")'>Atualizar</button> ";
-                        echo "<form action='../controls/cadastrarUsuario.php' method='POST' class='d-inline'>";
-                        echo "<input type='hidden' name='id_usuarios' value='" . $row['id_usuarios'] . "'>";
-                        echo "<input type='hidden' name='action' value='delete'>";
-                        echo "<button type='submit' class='btn btn-danger' onclick='return confirm(\"Tem certeza que deseja excluir este usuário?\")'>Excluir</button>";
-                        echo "</form>";
-                        echo "</td>";
-                        echo "</tr>";
+                    <?php 
+                    include_once '../models/conexao.php';
+                    $sql = "SELECT * FROM usuarios";
+                    $resultado = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($resultado) > 0) {
+                        while ($row = mysqli_fetch_assoc($resultado)) {
+                            echo "<tr>";
+                            echo "<td class='text-center'>" . $row['nome'] . "</td>";
+                            echo "<td class='text-center'>" . $row['nome_de_usuario'] . "</td>";
+                            echo "<td class='text-center'>" . $row['email'] . "</td>";
+                            echo "<td class='text-center'>" . $row['telefone'] . "</td>";
+                            echo "<td class='text-center'>" . $row['tipo'] . "</td>";
+                            echo "<td class='text-center'>";
+                            echo "<div class='d-flex justify-content-center'>";
+                            echo "<button class='btn btn-info btn-rounded' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editUser(" . json_encode($row) . ")'>Atualizar</button> ";
+                            echo "<form action='../controls/cadastrarUsuario.php' method='POST' style='display:inline-block;'>";
+                            echo "<input type='hidden' name='id_usuarios' value='" . $row['id_usuarios'] . "'>";
+                            echo "<input type='hidden' name='action' value='delete'>";
+                            echo "<button type='submit' class='btn btn-danger btn-rounded' onclick='return confirm(\"Tem certeza que deseja excluir este usuário?\")'>Excluir</button>";
+                            echo "</form>";
+                            echo "</div>";
+                            echo "</td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='6'>Nenhum dado encontrado</td></tr>";
                     }
-                } else {
-                    echo "<tr><td colspan='6'>Nenhum dado encontrado</td></tr>";
-                }
-                ?>
+                    ?>
                 </tbody>
             </table>
 
@@ -178,3 +148,4 @@ function editUser(user) {
 
 </body>
 </html>
+
