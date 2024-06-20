@@ -14,17 +14,24 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="text-center">Produtos</h1>
-            <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clearForm()">Adicionar Novo Produto</button>
-            
-            <?php
-            if (isset($_GET['status'])) {
-                if ($_GET['status'] == 'success') {
-                    echo '<div class="alert alert-success" style="display: inline-block" role="alert">Operação realizada com sucesso!!</div>';
-                } else if ($_GET['status'] == 'error') {
-                    echo '<div class="alert alert-danger" style="display: inline-block" role="alert">Erro ao realizar a operação</div>';
-                }
-            }
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="flex-grow-1">
+                    <?php
+                    if (isset($_GET['status'])) {
+                        if ($_GET['status'] == 'success') {
+                            echo '<div class="alert alert-success mb-0" style="display: inline-block" role="alert">Operação realizada com sucesso!!</div>';
+                        } else if ($_GET['status'] == 'error') {
+                            echo '<div class="alert alert-danger mb-0" style="display: inline-block" role="alert">Erro ao realizar a operação</div>';
+                        }
+                    }
+                    ?>
+                </div>
+                <div>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clearForm()">Adicionar Novo Produto</button>
+                </div>
+            </div>
 
+            <?php
             function formatPreco($preco) {
                 return 'R$ ' . number_format($preco, 2, ',', '.');
             }
@@ -54,7 +61,7 @@
                             echo "<td class='text-center'>" . $row['estoque'] . "</td>";
                             echo "<td class='text-center'>";
                             echo "<div class='d-flex justify-content-center'>";
-                            echo "<button class='btn btn-info btn-rounded' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editProduct(" . json_encode($row) . ")'>Atualizar</button> ";
+                            echo "<button class='btn btn-primary btn-rounded' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editProduct(" . json_encode($row) . ")'>Atualizar</button> ";
                             echo "<form action='../controls/cadastrarProduto.php' method='POST' style='display:inline-block;'>";
                             echo "<input type='hidden' name='id_produto' value='" . $row['id_produto'] . "'>";
                             echo "<input type='hidden' name='action' value='delete'>";

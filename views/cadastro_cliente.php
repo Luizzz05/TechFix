@@ -14,17 +14,24 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="text-center">Clientes</h1>
-            <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clearForm()">Adicionar Novo Cliente</button>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="flex-grow-1">
+                    <?php
+                    if (isset($_GET['status'])) {
+                        if ($_GET['status'] == 'success') {
+                            echo '<div class="alert alert-success mb-0" style="display: inline-block" role="alert">Operação realizada com sucesso!!</div>';
+                        } else if ($_GET['status'] == 'error') {
+                            echo '<div class="alert alert-danger mb-0" style="display: inline-block" role="alert">Erro ao realizar a operação</div>';
+                        }
+                    }
+                    ?>
+                </div>
+                <div>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clearForm()">Adicionar Novo Cliente</button>
+                </div>
+            </div>
             
             <?php
-            if (isset($_GET['status'])) {
-                if ($_GET['status'] == 'success') {
-                    echo '<div class="alert alert-success" style="display: inline-block" role="alert">Operação realizada com sucesso!!</div>';
-                } else if ($_GET['status'] == 'error') {
-                    echo '<div class="alert alert-danger" style="display: inline-block" role="alert">Erro ao realizar a operação</div>';
-                }
-            }
-            
             function formatCPF($cpf) {
                 return substr($cpf, 0, 3) . '.' . substr($cpf, 3, 3) . '.' . substr($cpf, 6, 3) . '-' . substr($cpf, 9, 2);
             }
@@ -60,7 +67,7 @@
                             echo "<td class='text-center'>" . $row['endereco'] . "</td>";
                             echo "<td class='text-center'>";
                             echo "<div class='d-flex justify-content-center'>";
-                            echo "<button class='btn btn-info btn-rounded' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editClient(" . json_encode($row) . ")'>Atualizar</button> ";
+                            echo "<button class='btn btn-primary btn-rounded' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editClient(" . json_encode($row) . ")'>Atualizar</button> ";
                             echo "<form action='../controls/cadastrarCliente.php' method='POST' style='display:inline-block;'>";
                             echo "<input type='hidden' name='id_clientes' value='" . $row['id_clientes'] . "'>";
                             echo "<input type='hidden' name='action' value='delete'>";
