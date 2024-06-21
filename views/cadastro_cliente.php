@@ -160,10 +160,10 @@ function editClient(client) {
 
 document.getElementById('clientForm').addEventListener('submit', function(event) {
     var cpfField = document.getElementById('cpf');
-    cpfField.value = cpfField.value.replace(/\D/g, ''); // Remove pontos e traços
+    cpfField.value = cpfField.value.replace(/\D/g, '');
 
     var telefoneField = document.getElementById('telefone');
-    telefoneField.value = telefoneField.value.replace(/\D/g, ''); // Remove parênteses e traços
+    telefoneField.value = telefoneField.value.replace(/\D/g, ''); 
 });
 </script>
 

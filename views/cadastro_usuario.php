@@ -30,12 +30,22 @@
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clearForm()">Adicionar Novo Usuário</button>
                 </div>
             </div>
+            
+            <?php
+            function formatTelefone($telefone) {
+                if (strlen($telefone) === 11) {
+                    return '(' . substr($telefone, 0, 2) . ') ' . substr($telefone, 2, 5) . '-' . substr($telefone, 7);
+                } else {
+                    return '(' . substr($telefone, 0, 2) . ') ' . substr($telefone, 2, 4) . '-' . substr($telefone, 6);
+                }
+            }
+            ?>
 
             <table class='table rounded-table'>
                 <thead>
                     <tr>
                         <th class="text-center">Nome</th>
-                        <th class="text-center">Nome de Usuario</th>
+                        <th class="text-center">Nome de Usuário</th>
                         <th class="text-center">Email</th>
                         <th class="text-center">Telefone</th>
                         <th class="text-center">Cargo</th>
@@ -53,7 +63,7 @@
                             echo "<td class='text-center'>" . $row['nome'] . "</td>";
                             echo "<td class='text-center'>" . $row['nome_de_usuario'] . "</td>";
                             echo "<td class='text-center'>" . $row['email'] . "</td>";
-                            echo "<td class='text-center'>" . $row['telefone'] . "</td>";
+                            echo "<td class='text-center'>" . formatTelefone($row['telefone']) . "</td>"; // Aplicar a formatação aqui
                             echo "<td class='text-center'>" . $row['tipo'] . "</td>";
                             echo "<td class='text-center'>";
                             echo "<div class='d-flex justify-content-center'>";
@@ -126,12 +136,17 @@
     </div>
 </div>
 
-<!-- Bootstrap JS and dependencies -->
+<!-- jQuery and Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script>
+$(document).ready(function(){
+    $('#telefone').mask('(00) 00000-0000');
+});
+
 function clearForm() {
     document.getElementById('userForm').reset();
     document.getElementById('action').value = 'add';
@@ -149,6 +164,11 @@ function editUser(user) {
     document.getElementById('action').value = 'update';
     document.getElementById('exampleModalLabel').innerText = 'Atualizar Usuário';
 }
+
+document.getElementById('userForm').addEventListener('submit', function(event) {
+    var telefoneField = document.getElementById('telefone');
+    telefoneField.value = telefoneField.value.replace(/\D/g, ''); 
+});
 </script>
 
 </body>
