@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Usuários</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css">
 </head>
-<body>
+<body class="bg-light text-dark">
 
 <div class="container">
     <div class="row">
@@ -63,7 +63,7 @@
                             echo "<td class='text-center'>" . $row['nome'] . "</td>";
                             echo "<td class='text-center'>" . $row['nome_de_usuario'] . "</td>";
                             echo "<td class='text-center'>" . $row['email'] . "</td>";
-                            echo "<td class='text-center'>" . formatTelefone($row['telefone']) . "</td>"; // Aplicar a formatação aqui
+                            echo "<td class='text-center'>" . formatTelefone($row['telefone']) . "</td>";
                             echo "<td class='text-center'>" . $row['tipo'] . "</td>";
                             echo "<td class='text-center'>";
                             echo "<div class='d-flex justify-content-center'>";

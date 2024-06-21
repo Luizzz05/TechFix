@@ -1,7 +1,3 @@
-body {
-    background-color: #d3d3d3;
-}
-
 .sidebar {
   height: 100%;
   width: 0;
@@ -59,7 +55,7 @@ body {
     border: none;
 }
 .rounded-table thead th {
-    background-color: #f8f9fa;
+    background-color: #d3d3d3;
 }
 .rounded-table tbody tr {
     background-color: #ffffff;

@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
-<body>
+<body class="bg-light text-dark">
 
 <div class="container">
     <div class="row">
