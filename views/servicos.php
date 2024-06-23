@@ -85,6 +85,48 @@
             <button type="submit" class="btn btn-success">Cadastrar Aparelho</button>
             <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>
         </form>
+
+        <!-- Formulário para Cadastro de Serviço -->
+        <form id="servicoForm" style="display: none;" method="POST" class="mt-3">
+            <h2>Cadastro de Serviço</h2>
+            <input type="hidden" id="fk_aparelho_id" name="fk_aparelho_id">
+            <div class="form-group">
+                <label for="descricao">Serviço</label>
+                <textarea class="form-control" id="descricao" name="descricao" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="data_entrada">Data de Entrada:</label>
+                <input type="date" class="form-control" id="data_entrada" name="data_entrada" required>
+            </div>
+            <div class="form-group">
+                <label for="fk_complexidade_id">Complexidade:</label>
+                <select class="form-control" id="fk_complexidade_id" name="fk_complexidade_id" required>
+                    <!-- Popule esta lista com as complexidades existentes no banco de dados -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="data_prevista">Data Prevista:</label>
+                <input type="date" class="form-control" id="data_prevista" name="data_prevista" required>
+            </div>
+            <div class="form-group">
+                <label for="fk_categoria_id">Categoria:</label>
+                <select class="form-control" id="fk_categoria_id" name="fk_categoria_id" required>
+                    <!-- Popule esta lista com as categorias existentes no banco de dados -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fk_usuarios_id">Usuário Responsável:</label>
+                <select class="form-control" id="fk_usuarios_id" name="fk_usuarios_id" required>
+                    <!-- Popule esta lista com os usuários existentes no banco de dados -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="data_conclusao">Data de Conclusão:</label>
+                <input type="date" class="form-control" id="data_conclusao" name="data_conclusao">
+            </div>
+            <button type="submit" class="btn btn-success">Cadastrar Serviço</button>
+            <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>
+        </form>
     </div>
 
     <script>
@@ -124,6 +166,12 @@
             document.getElementById("newClientForm").style.display = "none";
             document.getElementById("selectClientForm").style.display = "block";
             document.getElementById("aparelhoForm").style.display = "none";
+            document.getElementById("servicoForm").style.display = "none";
+        }
+
+        function showServicoForm() {
+            document.getElementById("aparelhoForm").style.display = "none";
+            document.getElementById("servicoForm").style.display = "block";
         }
 
         // Interceptar o envio do formulário de novo cliente
@@ -155,11 +203,43 @@
             }).then(response => response.text())
               .then(result => {
                   alert("Aparelho cadastrado com sucesso!");
-                  showSelectClientForm();
+                  var aparelhoId = result.aparelho_id; // Supondo que o ID do aparelho é retornado no resultado
+                  document.getElementById("fk_aparelho_id").value = aparelhoId;
+                  showServicoForm();
               }).catch(error => {
                   console.error('Erro:', error);
                   alert('Ocorreu um erro ao cadastrar o aparelho.');
               });
+        });
+
+        // Interceptar o envio do formulário de novo serviço
+        document.getElementById("servicoForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+
+            fetch("../controls/cadastrarServico.php", {
+                method: "POST",
+                body: formData
+            }).then(response => response.text())
+              .then(result => {
+                  alert("Serviço cadastrado com sucesso!");
+                  showSelectClientForm();
+              }).catch(error => {
+                  console.error('Erro:', error);
+                  alert('Ocorreu um erro ao cadastrar o serviço.');
+              });
+        });
+
+        // Função para definir a data atual no campo de data de entrada
+        function setDataAtual() {
+            var dataEntradaInput = document.getElementById("data_entrada");
+            var hoje = new Date().toISOString().split('T')[0];
+            dataEntradaInput.value = hoje;
+        }
+
+        // Chamar a função quando a página for carregada
+        document.addEventListener("DOMContentLoaded", function() {
+            setDataAtual();
         });
     </script>
 </body>
