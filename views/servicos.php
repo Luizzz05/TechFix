@@ -1,4 +1,4 @@
-<?php include_once 'menu.html';?>
+<?php include_once 'menu.html'; ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -17,7 +17,6 @@
                 <label for="clients">Selecione um Cliente:</label>
                 <select id="clients" name="clients" class="form-control" onchange="checkClient()">
                     <option value="" disabled selected>Escolha um cliente</option>
-                    <!-- Adicionar clientes existentes dinamicamente -->
                     <?php
                     include_once '../models/conexao.php';
                     $result = mysqli_query($conn, "SELECT id_clientes, nome FROM clientes");
@@ -58,6 +57,34 @@
             <button type="submit" class="btn btn-success">Cadastrar</button>
             <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>
         </form>
+
+        <!-- Formulário para Cadastro de Aparelho -->
+        <form id="aparelhoForm" style="display: none;" method="POST" class="mt-3">
+            <h2>Cadastro de Aparelho</h2>
+            <input type="hidden" id="fk_clientes_id" name="fk_clientes_id">
+            <div class="form-group">
+                <label for="clientName">Cliente:</label>
+                <input type="text" class="form-control" id="clientName" name="clientName" readonly>
+            </div>
+            <div class="form-group">
+                <label for="tipo">Tipo:</label>
+                <input type="text" class="form-control" id="tipo" name="tipo" required>
+            </div>
+            <div class="form-group">
+                <label for="marca">Marca:</label>
+                <input type="text" class="form-control" id="marca" name="marca" required>
+            </div>
+            <div class="form-group">
+                <label for="modelo">Modelo:</label>
+                <input type="text" class="form-control" id="modelo" name="modelo" required>
+            </div>
+            <div class="form-group">
+                <label for="numero_serie">Número de Série:</label>
+                <input type="text" class="form-control" id="numero_serie" name="numero_serie" required>
+            </div>
+            <button type="submit" class="btn btn-success">Cadastrar Aparelho</button>
+            <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>
+        </form>
     </div>
 
     <script>
@@ -75,11 +102,16 @@
 
         function submitClientForm() {
             var clientSelect = document.getElementById("clients");
+            var aparelhoForm = document.getElementById("aparelhoForm");
+            var clientNameInput = document.getElementById("clientName");
+            var fkClientesIdInput = document.getElementById("fk_clientes_id");
+
             if (clientSelect.value !== "new") {
-                alert("Cliente selecionado: " + clientSelect.options[clientSelect.selectedIndex].text);
-                // Aqui você pode adicionar a lógica para redirecionar ou realizar alguma ação com o cliente selecionado
-            } else {
-                // Se a opção "Novo Cliente" estiver selecionada, o formulário de cadastro já estará visível
+                var clientName = clientSelect.options[clientSelect.selectedIndex].text;
+                clientNameInput.value = clientName;
+                fkClientesIdInput.value = clientSelect.value;
+                document.getElementById("selectClientForm").style.display = "none";
+                aparelhoForm.style.display = "block";
             }
         }
 
@@ -91,6 +123,7 @@
         function showSelectClientForm() {
             document.getElementById("newClientForm").style.display = "none";
             document.getElementById("selectClientForm").style.display = "block";
+            document.getElementById("aparelhoForm").style.display = "none";
         }
 
         // Interceptar o envio do formulário de novo cliente
@@ -108,6 +141,24 @@
               }).catch(error => {
                   console.error('Erro:', error);
                   alert('Ocorreu um erro ao cadastrar o cliente.');
+              });
+        });
+
+        // Interceptar o envio do formulário de novo aparelho
+        document.getElementById("aparelhoForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+
+            fetch("../controls/cadastrarAparelho.php", {
+                method: "POST",
+                body: formData
+            }).then(response => response.text())
+              .then(result => {
+                  alert("Aparelho cadastrado com sucesso!");
+                  showSelectClientForm();
+              }).catch(error => {
+                  console.error('Erro:', error);
+                  alert('Ocorreu um erro ao cadastrar o aparelho.');
               });
         });
     </script>
