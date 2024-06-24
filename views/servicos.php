@@ -91,8 +91,8 @@
             <h2>Cadastro de Serviço</h2>
             <input type="hidden" id="fk_aparelho_id" name="fk_aparelho_id">
             <div class="form-group">
-                <label for="descricao">Serviço</label>
-                <textarea class="form-control" id="descricao" name="descricao" required></textarea>
+                <label for="descricao">Serviço:</label>
+                <textarea class="form-control" id="descricao" name="descricao" required style="resize: none;"></textarea>
             </div>
             <div class="form-group">
                 <label for="data_entrada">Data de Entrada:</label>
@@ -100,13 +100,19 @@
             </div>
             <div class="form-group">
                 <label for="fk_complexidade_id">Complexidade:</label>
-                <select class="form-control" id="fk_complexidade_id" name="fk_complexidade_id" required>
-                    <!-- Popule esta lista com as complexidades existentes no banco de dados -->
+                <select class="form-control" id="fk_complexidade_id" name="fk_complexidade_id" required onchange="calculateDataPrevista()">
+                    <option value="" disabled selected>Selecione a Complexidade</option>
+                    <?php
+                    $complexidades = mysqli_query($conn, "SELECT complexidade, prazos_dias FROM prazos");
+                    while ($complexidade = mysqli_fetch_assoc($complexidades)) {
+                        echo "<option value='{$complexidade['complexidade']}'>{$complexidade['complexidade']}</option>";
+                    }
+                    ?>
                 </select>
             </div>
             <div class="form-group">
                 <label for="data_prevista">Data Prevista:</label>
-                <input type="date" class="form-control" id="data_prevista" name="data_prevista" required>
+                <input type="date" class="form-control" id="data_prevista" name="data_prevista" required readonly>
             </div>
             <div class="form-group">
                 <label for="fk_categoria_id">Categoria:</label>
@@ -172,6 +178,39 @@
         function showServicoForm() {
             document.getElementById("aparelhoForm").style.display = "none";
             document.getElementById("servicoForm").style.display = "block";
+        }
+
+        // Função para calcular a data prevista com base na complexidade selecionada
+        function calculateDataPrevista() {
+            var complexidade = document.getElementById("fk_complexidade_id").value;
+            var dataEntrada = new Date(document.getElementById("data_entrada").value);
+            var diasAdicionar = 0;
+
+            switch (complexidade) {
+                case "1":
+                    diasAdicionar = 2;
+                    break;
+                case "2":
+                    diasAdicionar = 4;
+                    break;
+                case "3":
+                    diasAdicionar = 7;
+                    break;
+                case "4":
+                    diasAdicionar = 10;
+                    break;
+                case "5":
+                    diasAdicionar = 14;
+                    break;
+                default:
+                    diasAdicionar = 0;
+            }
+
+            var dataPrevista = new Date(dataEntrada);
+            dataPrevista.setDate(dataEntrada.getDate() + diasAdicionar);
+
+            var dataPrevistaInput = document.getElementById("data_prevista");
+            dataPrevistaInput.value = dataPrevista.toISOString().split('T')[0];
         }
 
         // Interceptar o envio do formulário de novo cliente

@@ -67,7 +67,7 @@
                             echo "<td class='text-center'>" . $row['endereco'] . "</td>";
                             echo "<td class='text-center'>";
                             echo "<div class='d-flex justify-content-center'>";
-                            echo "<button class='btn btn-primary btn-rounded' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editClient(" . json_encode($row) . ")'>Atualizar</button> ";
+                            echo "<button class='btn btn-primary btn-rounded me-2' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editClient(" . json_encode($row) . ")'>Atualizar</button> ";
                             echo "<form action='../controls/cadastrarCliente.php' method='POST' style='display:inline-block;'>";
                             echo "<input type='hidden' name='id_clientes' value='" . $row['id_clientes'] . "'>";
                             echo "<input type='hidden' name='action' value='delete'>";

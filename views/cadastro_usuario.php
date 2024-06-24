@@ -67,7 +67,7 @@
                             echo "<td class='text-center'>" . $row['tipo'] . "</td>";
                             echo "<td class='text-center'>";
                             echo "<div class='d-flex justify-content-center'>";
-                            echo "<button class='btn btn-primary btn-rounded' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editUser(" . json_encode($row) . ")'>Atualizar</button> ";
+                            echo "<button class='btn btn-primary btn-rounded me-2' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editUser(" . json_encode($row) . ")'>Atualizar</button> ";
                             echo "<form action='../controls/cadastrarUsuario.php' method='POST' style='display:inline-block;'>";
                             echo "<input type='hidden' name='id_usuarios' value='" . $row['id_usuarios'] . "'>";
                             echo "<input type='hidden' name='action' value='delete'>";
