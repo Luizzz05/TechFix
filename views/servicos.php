@@ -103,7 +103,12 @@
                 <label for="fk_usuarios_id">Usuário Responsável:</label>
                 <select class="form-control" id="fk_usuarios_id" name="fk_usuarios_id" required>
                 <option value="" disabled selected>Selecione a Categoria</option>
-
+                <?php
+                    $usuarios = mysqli_query($conn, "SELECT nome, tipo FROM categoria");
+                    while ($usuario = mysqli_fetch_assoc($usuarios)) {
+                        echo "<option value='{$usuario['nome, tipo']}'>{$usuario['nome, tipo']}</option>";
+                    }
+                    ?>
                 </select>
             </div>
             <button type="submit" class="btn btn-success">Cadastrar Serviço</button>
