@@ -127,7 +127,9 @@ $(document).ready(function() {
             success: function(response) {
                 var result = JSON.parse(response);
                 if (result.status === "success") {
-                    alert("Aparelho cadastrado com sucesso!");
+                    // Removida a linha de alerta
+                    // alert("Aparelho cadastrado com sucesso!");
+                    
                     // Atualizar a lista de aparelhos
                     var aparelhoId = result.aparelho_id;
                     var tipo = result.tipo;
@@ -146,6 +148,7 @@ $(document).ready(function() {
         });
     });
 });
+
 
 
 

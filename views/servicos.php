@@ -90,7 +90,7 @@
                 <textarea class="form-control" id="descricao" name="descricao" required style="resize: none;"></textarea>
 
                 <label for="data_entrada">Data de Entrada:</label>
-                <input type="date" class="form-control" id="data_entrada" name="data_entrada" required>
+                <input type="date" class="form-control" id="data_entrada" name="data_entrada" required readonly>
 
                 <label for="fk_complexidade_id">Complexidade:</label>
                 <select class="form-control" id="fk_complexidade_id" name="fk_complexidade_id" required onchange="calculateDataPrevista()">
@@ -104,7 +104,7 @@
                 </select>
 
                 <label for="data_prevista">Data Prevista:</label>
-                <input type="date" class="form-control" id="data_prevista" name="data_prevista" required>
+                <input type="date" class="form-control" id="data_prevista" name="data_prevista" required readonly>
 
                 <label for="fk_categoria_id">Categoria:</label>
                 <select class="form-control" id="fk_categoria_id" name="fk_categoria_id" required>
