@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Cliente</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-light text-dark">
     <div class="container">
@@ -69,47 +70,73 @@
             <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>
         </form>
 
+
         <!-- Formulário para Cadastro de Serviço -->
-        <form id="servicoForm" style="display: none;" method="POST" class="mt-3">
+        <form id="servicoForm" style="display: none;" action="../controls/cadastrarServicos.php" method="POST" class="mt-3">
             <h2>Cadastro de Serviço</h2>
-            <input type="hidden" id="fk_aparelho_id" name="fk_aparelho_id">
             <div class="form-group">
+                <label for="fk_aparelho_id">Aparelho:</label>
+                <select class="form-control" id="fk_aparelho_id" name="fk_aparelho_id" required>
+                    <option value="" disabled selected>Selecione o aparelho</option>
+                    <?php
+                    $aparelhos = mysqli_query($conn, "SELECT id_aparelho, tipo, modelo FROM aparelhos");
+                    while ($aparelho = mysqli_fetch_assoc($aparelhos)) {
+                        echo "<option value='{$aparelho['id_aparelho']}'>{$aparelho['tipo']} - {$aparelho['modelo']}</option>";
+                    }
+                    ?>
+                </select>
+
                 <label for="descricao">Serviço:</label>
                 <textarea class="form-control" id="descricao" name="descricao" required style="resize: none;"></textarea>
+
                 <label for="data_entrada">Data de Entrada:</label>
                 <input type="date" class="form-control" id="data_entrada" name="data_entrada" required>
+
                 <label for="fk_complexidade_id">Complexidade:</label>
                 <select class="form-control" id="fk_complexidade_id" name="fk_complexidade_id" required onchange="calculateDataPrevista()">
                     <option value="" disabled selected>Selecione a Complexidade</option>
                     <?php
-                    $complexidades = mysqli_query($conn, "SELECT complexidade, prazos_dias FROM prazos");
+                    $complexidades = mysqli_query($conn, "SELECT complexidade, complexidade, prazos_dias FROM prazos");
                     while ($complexidade = mysqli_fetch_assoc($complexidades)) {
                         echo "<option value='{$complexidade['complexidade']}'>{$complexidade['complexidade']}</option>";
                     }
                     ?>
                 </select>
+
                 <label for="data_prevista">Data Prevista:</label>
-                <input type="date" class="form-control" id="data_prevista" name="data_prevista" required readonly>
+                <input type="date" class="form-control" id="data_prevista" name="data_prevista" required>
+
                 <label for="fk_categoria_id">Categoria:</label>
                 <select class="form-control" id="fk_categoria_id" name="fk_categoria_id" required>
                     <option value="" disabled selected>Selecione a Categoria</option>
                     <?php
-                    $categorias = mysqli_query($conn, "SELECT nome, descricao FROM categoria");
+                    $categorias = mysqli_query($conn, "SELECT id_categoria, nome, descricao FROM categoria");
                     while ($categoria = mysqli_fetch_assoc($categorias)) {
-                        echo "<option value='{$categoria['nome']}'>{$categoria['nome']}</option>";
+                        echo "<option value='{$categoria['id_categoria']}'>{$categoria['nome']}</option>";
                     }
                     ?>
                 </select>
+
                 <label for="fk_usuarios_id">Usuário Responsável:</label>
                 <select class="form-control" id="fk_usuarios_id" name="fk_usuarios_id" required>
                     <option value="" disabled selected>Selecione o Usuário</option>
                     <?php
-                    $usuarios = mysqli_query($conn, "SELECT nome, tipo FROM usuarios");
+                    $usuarios = mysqli_query($conn, "SELECT id_usuarios, nome, tipo FROM usuarios");
                     while ($usuario = mysqli_fetch_assoc($usuarios)) {
-                        echo "<option value='{$usuario['nome, tipo']}'>{$usuario['nome']} - {$usuario['tipo']}</option>";
+                        echo "<option value='{$usuario['id_usuarios']}'>{$usuario['nome']} - {$usuario['tipo']}</option>";
                     }
                     ?>
                 </select>
+
+                <label for="fk_status_id">Status:</label>
+                <select class="form-control" id="fk_status_id" name="fk_status_id" required disabled>
+                    <?php
+                    $stats = mysqli_query($conn, "SELECT id_status, descricao FROM status WHERE id_status = 1");
+                    $status = mysqli_fetch_assoc($stats);
+                    echo "<option value='{$status['id_status']}' selected>{$status['descricao']}</option>";
+                    ?>
+                </select>
+                <input type="hidden" name="fk_status_id" value="1">
             </div>
             <button type="submit" class="btn btn-success">Cadastrar Serviço</button>
             <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>

@@ -93,43 +93,61 @@ document.getElementById("newClientForm").addEventListener("submit", function(eve
       });
 });
 
-// Interceptar o envio do formulário de novo aparelho
-document.getElementById("aparelhoForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    var formData = new FormData(this);
 
-    fetch("../controls/cadastrarAparelho.php", {
-        method: "POST",
-        body: formData
-    }).then(response => response.text())
-      .then(result => {
-          alert("Aparelho cadastrado com sucesso!");
-          var aparelhoId = result.aparelho_id; // Supondo que o ID do aparelho é retornado no resultado
-          document.getElementById("fk_aparelho_id").value = aparelhoId;
-          showServicoForm();
-      }).catch(error => {
-          console.error('Erro:', error);
-          alert('Ocorreu um erro ao cadastrar o aparelho.');
-      });
+// // Interceptar o envio do formulário de novo serviço
+// document.getElementById("servicoForm").addEventListener("submit", function(event) {
+//     event.preventDefault();
+//     var formData = new FormData(this);
+
+//     fetch("../controls/cadastrarServico.php", {
+//         method: "POST",
+//         body: formData
+//     }).then(response => response.text())
+//       .then(result => {
+//           alert("Serviço cadastrado com sucesso!");
+//           showSelectClientForm();
+//       }).catch(error => {
+//           console.error('Erro:', error);
+//           alert('Ocorreu um erro ao cadastrar o serviço.');
+//       });
+// });
+
+$(document).ready(function() {
+    // Interceptar o envio do formulário de novo aparelho
+    $("#aparelhoForm").on("submit", function(event) {
+        event.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: "../controls/cadastrarAparelho.php",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                var result = JSON.parse(response);
+                if (result.status === "success") {
+                    alert("Aparelho cadastrado com sucesso!");
+                    // Atualizar a lista de aparelhos
+                    var aparelhoId = result.aparelho_id;
+                    var tipo = result.tipo;
+                    var modelo = result.modelo;
+                    var newOption = new Option(tipo + " - " + modelo, aparelhoId);
+                    $("#fk_aparelho_id").append(newOption).val(aparelhoId);
+                    showServicoForm();
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao cadastrar o aparelho.');
+            }
+        });
+    });
 });
 
-// Interceptar o envio do formulário de novo serviço
-document.getElementById("servicoForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    var formData = new FormData(this);
 
-    fetch("../controls/cadastrarServico.php", {
-        method: "POST",
-        body: formData
-    }).then(response => response.text())
-      .then(result => {
-          alert("Serviço cadastrado com sucesso!");
-          showSelectClientForm();
-      }).catch(error => {
-          console.error('Erro:', error);
-          alert('Ocorreu um erro ao cadastrar o serviço.');
-      });
-});
 
 // Função para definir a data atual no campo de data de entrada
 function setDataAtual() {
