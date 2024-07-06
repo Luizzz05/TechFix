@@ -80,12 +80,78 @@
     border-radius: 20px;
 }
 
-footer{
-    font-family: 'Sarala' ,sans-serif;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  padding-bottom: 60px; /* Ajuste conforme necessário para evitar sobreposição */
+}
+
+.form-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.progress-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 60px; /* Adicione espaço extra para o footer */
+}
+
+.progressbar {
+  counter-reset: step;
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 750px;
+  z-index: 5; /* Certifique-se de que está abaixo do footer */
+}
+
+.progressbar li {
+  counter-increment: step;
+  text-align: center;
+  flex: 1;
+  position: relative;
+}
+
+.progressbar li::before {
+  content: counter(step);
+  width: 30px;
+  height: 30px;
+  border: 2px solid #ddd;
+  display: block;
+  text-align: center;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  background-color: white;
+  line-height: 30px;
+}
+
+.progressbar li::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #ddd;
+  top: 15px;
+  left: -50%;
+  z-index: -1;
+}
+
+.progressbar li:first-child::after {
+  content: none;
+}
+
+.progressbar li.active::before, .progressbar li.active::after {
+  background-color: #0d6efd;
+  color: white;
+  border-color: #0d6efd;
 }

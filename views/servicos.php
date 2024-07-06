@@ -5,78 +5,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Cliente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body class="bg-light text-dark">
-    <div class="container">
-        <h1 class="mt-5">Selecione ou Cadastre um Cliente</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Selecione ou Cadastre um Cliente</h1>
+        
         
         <!-- Formulário para Selecionar Cliente -->
-        <form id="selectClientForm" class="mt-3">
-            <div class="form-group">
-                <label for="clients">Selecione um Cliente:</label>
-                <select id="clients" name="clients" class="form-control" onchange="checkClient()">
+        <form id="selectClientForm" class="form-container">
+            <div class="mb-3">
+                <label for="clients" class="form-label">Selecione um Cliente:</label>
+                <select id="clients" name="clients" class="form-select" onchange="checkClient()">
                     <option value="" disabled selected>Escolha um cliente</option>
                     <?php
                     include_once '../models/conexao.php';
-                    $result = mysqli_query($conn, "SELECT id_clientes, nome FROM clientes");
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<option value='{$row['id_clientes']}'>{$row['nome']}</option>";
+                    if ($conn) {
+                        $result = mysqli_query($conn, "SELECT id_clientes, nome FROM clientes");
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo "<option value='{$row['id_clientes']}'>{$row['nome']}</option>";
+                        }
+                    } else {
+                        echo "<option value='' disabled>Erro na conexão com o banco de dados</option>";
                     }
                     ?>
                 </select>
             </div>
-            <button type="button" class="btn btn-primary" onclick="submitClientForm()">Continuar</button>
-            <button type="button" class="btn btn-secondary" onclick="showNewClientForm()">Novo Cliente</button>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-primary" onclick="submitClientForm()">Continuar</button>
+                <button type="button" class="btn btn-secondary" onclick="showNewClientForm()">Novo Cliente</button>
+            </div>
         </form>
-
+        
         <!-- Formulário para Cadastro de Novo Cliente -->
-        <form id="newClientForm" style="display: none;" method="POST" class="mt-3">
-            <h2>Cadastro de Novo Cliente</h2>
+        <form id="newClientForm" style="display: none;" method="POST" class="form-container mt-4">
+            <h2 class="mb-3 text-center">Cadastro de Novo Cliente</h2>
             <input type="hidden" name="action" value="add">
-            <div class="form-group">
-                <label for="nome">Nome:</label>
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
                 <input type="text" class="form-control" id="nome" name="nome" required>
-                <label for="telefone">Telefone:</label>
+            </div>
+            <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone:</label>
                 <input type="tel" class="form-control" id="telefone" name="telefone" required>
-                <label for="email">Email:</label>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
                 <input type="email" class="form-control" id="email" name="email" required>
-                <label for="cpf">CPF:</label>
+            </div>
+            <div class="mb-3">
+                <label for="cpf" class="form-label">CPF:</label>
                 <input type="text" class="form-control" id="cpf" name="cpf" required>
-                <label for="endereco">Endereço:</label>
+            </div>
+            <div class="mb-3">
+                <label for="endereco" class="form-label">Endereço:</label>
                 <input type="text" class="form-control" id="endereco" name="endereco" required>
             </div>
-            <button type="submit" class="btn btn-success">Cadastrar</button>
-            <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Cadastrar</button>
+                <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>
+            </div>
         </form>
 
         <!-- Formulário para Cadastro de Aparelho -->
-        <form id="aparelhoForm" style="display: none;" method="POST" class="mt-3">
-            <h2>Cadastro de Aparelho</h2>
+        <form id="aparelhoForm" style="display: none;" method="POST" class="form-container mt-4">
+            <h2 class="mb-3 text-center">Cadastro de Aparelho</h2>
             <input type="hidden" id="fk_clientes_id" name="fk_clientes_id">
-            <div class="form-group">
-                <label for="clientName">Cliente:</label>
+            <div class="mb-3">
+                <label for="clientName" class="form-label">Cliente:</label>
                 <input type="text" class="form-control" id="clientName" name="clientName" readonly>
-                <label for="tipo">Tipo:</label>
+            </div>
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo:</label>
                 <input type="text" class="form-control" id="tipo" name="tipo" required>
-                <label for="marca">Marca:</label>
+            </div>
+            <div class="mb-3">
+                <label for="marca" class="form-label">Marca:</label>
                 <input type="text" class="form-control" id="marca" name="marca" required>
-                <label for="modelo">Modelo:</label>
+            </div>
+            <div class="mb-3">
+                <label for="modelo" class="form-label">Modelo:</label>
                 <input type="text" class="form-control" id="modelo" name="modelo" required>
-                <label for="numero_serie">Número de Série:</label>
+            </div>
+            <div class="mb-3">
+                <label for="numero_serie" class="form-label">Número de Série:</label>
                 <input type="text" class="form-control" id="numero_serie" name="numero_serie" required>
             </div>
-            <button type="submit" class="btn btn-success">Cadastrar Aparelho</button>
-            <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Cadastrar Aparelho</button>
+                <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>
+            </div>
         </form>
-
-
+        
         <!-- Formulário para Cadastro de Serviço -->
-        <form id="servicoForm" style="display: none;" action="../controls/cadastrarServicos.php" method="POST" class="mt-3">
-            <h2>Cadastro de Serviço</h2>
-            <div class="form-group">
-                <label for="fk_aparelho_id">Aparelho:</label>
-                <select class="form-control" id="fk_aparelho_id" name="fk_aparelho_id" required>
+        <form id="servicoForm" style="display: none;" action="../controls/cadastrarServicos.php" method="POST" class="form-container mt-4">
+            <h2 class="mb-3 text-center">Cadastro de Serviço</h2>
+            <div class="mb-3">
+                <label for="fk_aparelho_id" class="form-label">Aparelho:</label>
+                <select class="form-select" id="fk_aparelho_id" name="fk_aparelho_id" required>
                     <option value="" disabled selected>Selecione o aparelho</option>
                     <?php
                     $aparelhos = mysqli_query($conn, "SELECT id_aparelho, tipo, modelo FROM aparelhos");
@@ -85,13 +113,13 @@
                     }
                     ?>
                 </select>
-
+                
                 <label for="descricao">Serviço:</label>
                 <textarea class="form-control" id="descricao" name="descricao" required style="resize: none;"></textarea>
-
+                
                 <label for="data_entrada">Data de Entrada:</label>
                 <input type="date" class="form-control" id="data_entrada" name="data_entrada" required readonly>
-
+                
                 <label for="fk_complexidade_id">Complexidade:</label>
                 <select class="form-control" id="fk_complexidade_id" name="fk_complexidade_id" required onchange="calculateDataPrevista()">
                     <option value="" disabled selected>Selecione a Complexidade</option>
@@ -102,10 +130,10 @@
                     }
                     ?>
                 </select>
-
+                
                 <label for="data_prevista">Data Prevista:</label>
                 <input type="date" class="form-control" id="data_prevista" name="data_prevista" required readonly>
-
+                
                 <label for="fk_categoria_id">Categoria:</label>
                 <select class="form-control" id="fk_categoria_id" name="fk_categoria_id" required>
                     <option value="" disabled selected>Selecione a Categoria</option>
@@ -116,7 +144,7 @@
                     }
                     ?>
                 </select>
-
+                
                 <label for="fk_usuarios_id">Usuário Responsável:</label>
                 <select class="form-control" id="fk_usuarios_id" name="fk_usuarios_id" required>
                     <option value="" disabled selected>Selecione o Usuário</option>
@@ -127,7 +155,7 @@
                     }
                     ?>
                 </select>
-
+                
                 <label for="fk_status_id">Status:</label>
                 <select class="form-control" id="fk_status_id" name="fk_status_id" required disabled>
                     <?php
@@ -138,11 +166,22 @@
                 </select>
                 <input type="hidden" name="fk_status_id" value="1">
             </div>
-            <button type="submit" class="btn btn-success">Cadastrar Serviço</button>
-            <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Cadastrar Serviço</button>
+                <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>
+            </div>
         </form>
+        <!-- Barra de Progresso -->
+        <div class="progress-container mb-4">
+            <ul class="progressbar">
+                <li class="active" id="step1">Seleção de Cliente</li>
+                <li id="step2">Cadastro de Cliente</li>
+                <li id="step3">Cadastro de Aparelho</li>
+                <li id="step4">Cadastro de Serviço</li>
+            </ul>
+        </div>
     </div>
-
+    
     <script src="scripts.js"></script>
 </body>
 </html>

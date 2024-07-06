@@ -163,3 +163,59 @@ function setDataAtual() {
 document.addEventListener("DOMContentLoaded", function() {
     setDataAtual();
 });
+
+function updateProgressBar(step) {
+    // Remove the 'active' class from all steps
+    document.querySelectorAll('.progressbar li').forEach((element) => {
+        element.classList.remove('active');
+    });
+
+    // Add the 'active' class to the current step and all previous steps
+    for (let i = 1; i <= step; i++) {
+        document.getElementById('step' + i).classList.add('active');
+    }
+}
+
+function showNewClientForm() {
+    document.getElementById('selectClientForm').style.display = 'none';
+    document.getElementById('newClientForm').style.display = 'block';
+    document.getElementById('aparelhoForm').style.display = 'none';
+    document.getElementById('servicoForm').style.display = 'none';
+    updateProgressBar(2);
+}
+
+function showSelectClientForm() {
+    document.getElementById('selectClientForm').style.display = 'block';
+    document.getElementById('newClientForm').style.display = 'none';
+    document.getElementById('aparelhoForm').style.display = 'none';
+    document.getElementById('servicoForm').style.display = 'none';
+    updateProgressBar(1);
+}
+
+function submitClientForm() {
+    var selectedClient = document.getElementById('clients').value;
+    if (selectedClient) {
+        document.getElementById('fk_clientes_id').value = selectedClient;
+        var clientName = document.querySelector('#clients option:checked').textContent;
+        document.getElementById('clientName').value = clientName;
+        showAparelhoForm();
+    } else {
+        alert('Por favor, selecione um cliente.');
+    }
+}
+
+function showAparelhoForm() {
+    document.getElementById('selectClientForm').style.display = 'none';
+    document.getElementById('newClientForm').style.display = 'none';
+    document.getElementById('aparelhoForm').style.display = 'block';
+    document.getElementById('servicoForm').style.display = 'none';
+    updateProgressBar(3);
+}
+
+function showServicoForm() {
+    document.getElementById('selectClientForm').style.display = 'none';
+    document.getElementById('newClientForm').style.display = 'none';
+    document.getElementById('aparelhoForm').style.display = 'none';
+    document.getElementById('servicoForm').style.display = 'block';
+    updateProgressBar(4);
+}
