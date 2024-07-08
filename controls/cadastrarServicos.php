@@ -21,10 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql .= $data_conclusao ? "'$data_conclusao'" : "NULL";
     $sql .= ", '$fk_status_id', '$fk_aparelho_id', '$fk_categoria_id', '$fk_complexidade_id', '$fk_usuarios_id')";
 
-    if (mysqli_query($conn, $sql)) {
-        echo "Serviço cadastrado com sucesso!";
+    $resultado = mysqli_query($conn, $sql);
+    if ($resultado) {
+        header('Location: ../views/servicos.php?status=success');
     } else {
-        echo "Erro ao cadastrar: " . mysqli_error($conn);
+        header('Location: ../views/servicos.php?status=error');
     }
+    exit();
 }
 ?>

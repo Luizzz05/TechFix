@@ -13,7 +13,6 @@
     <div class="container mt-5">
         <h1 class="mb-4 text-center">Selecione ou Cadastre um Cliente</h1>
         
-        
         <!-- Formulário para Selecionar Cliente -->
         <form id="selectClientForm" class="form-container">
             <div class="mb-3">
