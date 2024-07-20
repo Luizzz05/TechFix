@@ -1,3 +1,9 @@
+$(document).ready(function(){
+    $('#cpf').mask('000.000.000-00');
+    $('#telefone').mask('(00) 00000-0000'); // Para telefones celulares
+});
+
+
 function checkClient() {
     var clientSelect = document.getElementById("clients");
     var newClientForm = document.getElementById("newClientForm");
@@ -78,39 +84,38 @@ function calculateDataPrevista() {
 // Interceptar o envio do formulário de novo cliente
 document.getElementById("newClientForm").addEventListener("submit", function(event) {
     event.preventDefault();
+    
+    // Remover a formatação dos campos CPF e Telefone
+    var cpfField = document.getElementById('cpf');
+    cpfField.value = cpfField.value.replace(/\D/g, '');
+
+    var telefoneField = document.getElementById('telefone');
+    telefoneField.value = telefoneField.value.replace(/\D/g, '');
+
     var formData = new FormData(this);
 
     fetch("../controls/cadastrarCliente.php", {
         method: "POST",
         body: formData
-    }).then(response => response.text())
-      .then(result => {
-          // Redirecionar para a página de serviços após o cadastro bem-sucedido
-          window.location.href = "../views/servicos.php";
-      }).catch(error => {
-          console.error('Erro:', error);
-          alert('Ocorreu um erro ao cadastrar o cliente.');
-      });
+    })
+    .then(response => response.text())
+    .then(result => {
+        // Verificar o resultado da resposta
+        console.log('Result:', result);
+        if (result.includes('success')) { // Verifica se o resultado contém 'success'
+            // Redirecionar para a página de serviços após o cadastro bem-sucedido
+            window.location.href = "../views/servicos.php";
+        } else {
+            alert('Ocorreu um erro ao cadastrar o cliente.');
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Ocorreu um erro ao cadastrar o cliente.');
+    });
 });
 
 
-// // Interceptar o envio do formulário de novo serviço
-// document.getElementById("servicoForm").addEventListener("submit", function(event) {
-//     event.preventDefault();
-//     var formData = new FormData(this);
-
-//     fetch("../controls/cadastrarServico.php", {
-//         method: "POST",
-//         body: formData
-//     }).then(response => response.text())
-//       .then(result => {
-//           alert("Serviço cadastrado com sucesso!");
-//           showSelectClientForm();
-//       }).catch(error => {
-//           console.error('Erro:', error);
-//           alert('Ocorreu um erro ao cadastrar o serviço.');
-//       });
-// });
 
 $(document).ready(function() {
     // Interceptar o envio do formulário de novo aparelho

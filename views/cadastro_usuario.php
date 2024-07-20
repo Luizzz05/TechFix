@@ -30,16 +30,6 @@
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clearForm()">Adicionar Novo Usuário</button>
                 </div>
             </div>
-            
-            <?php
-            function formatTelefone($telefone) {
-                if (strlen($telefone) === 11) {
-                    return '(' . substr($telefone, 0, 2) . ') ' . substr($telefone, 2, 5) . '-' . substr($telefone, 7);
-                } else {
-                    return '(' . substr($telefone, 0, 2) . ') ' . substr($telefone, 2, 4) . '-' . substr($telefone, 6);
-                }
-            }
-            ?>
 
             <table class='table rounded-table'>
                 <thead>

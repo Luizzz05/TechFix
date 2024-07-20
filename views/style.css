@@ -112,7 +112,7 @@ body {
   margin-bottom: 20px;
   width: 100%;
   max-width: 750px;
-  z-index: 5; /* Certifique-se de que está abaixo do footer */
+  z-index: 5;
 }
 
 .progressbar li {
@@ -132,7 +132,7 @@ body {
   margin: 0 auto 10px;
   border-radius: 50%;
   background-color: white;
-  line-height: 30px;
+  line-height: 25px;
 }
 
 .progressbar li::after {
