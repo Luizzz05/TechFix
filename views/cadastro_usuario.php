@@ -31,6 +31,16 @@
                 </div>
             </div>
 
+            <?php
+            function formatCPF($cpf) {
+                return substr($cpf, 0, 3) . '.' . substr($cpf, 3, 3) . '.' . substr($cpf, 6, 3) . '-' . substr($cpf, 9, 2);
+            }
+
+            function formatTelefone($telefone) {
+                return '(' . substr($telefone, 0, 2) . ') ' . substr($telefone, 2, 4) . '-' . substr($telefone, 6, 4);
+            }
+            ?>
+
             <table class='table rounded-table'>
                 <thead>
                     <tr>
