@@ -53,7 +53,7 @@
                             echo "<td class='text-center'>" . $row['nome'] . "</td>";
                             echo "<td class='text-center'>" . $row['nome_de_usuario'] . "</td>";
                             echo "<td class='text-center'>" . $row['email'] . "</td>";
-                            echo "<td class='text-center'>" . formatTelefone($row['telefone']) . "</td>";
+                            echo "<td class='text-center'>" . $row['telefone'] . "</td>";
                             echo "<td class='text-center'>" . $row['tipo'] . "</td>";
                             echo "<td class='text-center'>";
                             echo "<div class='d-flex justify-content-center'>";
