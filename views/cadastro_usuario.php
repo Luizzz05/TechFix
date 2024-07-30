@@ -67,11 +67,11 @@
                             echo "<td class='text-center'>" . $row['tipo'] . "</td>";
                             echo "<td class='text-center'>";
                             echo "<div class='d-flex justify-content-center'>";
-                            echo "<button class='btn btn-primary btn-rounded me-2' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editUser(" . json_encode($row) . ")'>Atualizar</button> ";
+                            echo "<button class='btn action-button edit-button me-2' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editClient(" . json_encode($row) . ")'><i class='fas fa-pencil-alt'></i></button> ";
                             echo "<form action='../controls/cadastrarUsuario.php' method='POST' style='display:inline-block;'>";
                             echo "<input type='hidden' name='id_usuarios' value='" . $row['id_usuarios'] . "'>";
                             echo "<input type='hidden' name='action' value='delete'>";
-                            echo "<button type='submit' class='btn btn-danger btn-rounded' onclick='return confirm(\"Tem certeza que deseja excluir este usuário?\")'>Excluir</button>";
+                            echo "<button type='submit' class='btn action-button delete-button' onclick='return confirm(\"Tem certeza que deseja excluir este cliente?\")'><i class='fas fa-times'></i></button>";
                             echo "</form>";
                             echo "</div>";
                             echo "</td>";
