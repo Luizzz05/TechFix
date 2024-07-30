@@ -25,22 +25,30 @@ if(!$result){
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css">
 </head>
 <body class="bg-light text-dark">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-center">Serviços</h1>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="flex-grow-1">
     <table class="table rounded-table">
         <tr>
-            <th>Codigo</th>
-            <th>Descrição</th>
-            <th>Entrada</th>
-            <th>Previsão de entrega</th>
-            <th>Conclusão</th>
-            <th>Status</th>
-            <th>Aparelho</th>
-            <th>Categoria</th>
-            <th>Complexidade</th>
-            <th>Tecnico</th>
+
+        <th>Codigo</th>
+        <th>Descrição</th>
+        <th>Entrada</th>
+        <th>Previsão de entrega</th>
+        <th>Conclusão</th>
+        <th>Status</th>
+        <th>Aparelho</th>
+        <th>Categoria</th>
+        <th>Complexidade</th>
+        <th>Tecnico</th>
+            
         </tr>
         <?php 
         if(mysqli_num_rows($result)>0){
-            if($linha = mysqli_fetch_assoc($result)){
+            while($linha = mysqli_fetch_assoc($result)){
 
             
 
@@ -63,12 +71,11 @@ if(!$result){
                 
             </tr>
 
-
-
-
-
-
-
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
