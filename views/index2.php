@@ -3,9 +3,6 @@ include_once '../models/conexao.php';
 include_once 'menu.html';
 session_start();
 
-// echo $_SESSION['nome_de_usuario'];
-// echo $_SESSION['tipo']; 
-
 $sql = "SELECT ser.id_servicos, ser.descricao, ser.data_entrada, ser.data_prevista, ser.data_conclusao, st.descricao, ap.tipo, ca.nome as nomecat, pr.complexidade, 
 us.nome FROM `servicos` ser JOIN status st on st.id_status = fk_status_id JOIN aparelhos ap on ap.id_aparelho = fk_aparelho_id JOIN categoria ca on ca.id_categoria = fk_categoria_id 
 JOIN prazos pr on pr.complexidade = fk_complexidade_id JOIN usuarios us on us.id_usuarios = fk_usuarios_id"; 

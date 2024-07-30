@@ -45,6 +45,54 @@
   background-color: #444;
 }
 
+.sidebar-profile {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0; /* Altera para a direita */
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar-profile a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar-profile a:hover {
+  color: #f1f1f1;
+}
+
+.sidebar-profile .closebtn-profile {
+  position: absolute;
+  top: 0;
+  left: 25px; /* Altera para a esquerda */
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn-profile {
+  margin-right: 10px; /* Altera para a direita */
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: #111;
+}
+
+.openbtn-profile:hover {
+  background-color: #444;
+}
+
+
 .rounded-table {
     border-collapse: separate;
     border-spacing: 0;
@@ -176,4 +224,37 @@ body {
 
 .action-button i {
   font-size: 1rem;
+}
+
+.corpo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  background-image: url('images/imagem_login.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+  position: relative; /* Necessário para o ::before funcionar corretamente */
+  overflow: hidden; /* Para garantir que o conteúdo não ultrapasse o container */
+}
+
+.corpo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit; /* Herda o fundo da classe corpo */
+  filter: blur(2px); /* Define o desfoque (ajuste conforme necessário) */
+  z-index: 1; /* Define o z-index para que o container de login fique acima */
+}
+
+.login-container {
+  max-width: 400px;
+  width: 100%;
+  z-index: 2; /* Certifique-se de que o login-container fique acima do fundo desfocado */
+  position: relative; /* Necessário para manter o contexto de empilhamento */
 }

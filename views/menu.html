@@ -12,6 +12,9 @@
   <header>
     <div class="navbar navbar-expand-lg bg-dark">
       <button class="openbtn bg-dark" onclick="openNav()">☰</button>
+      <button class="openbtn-profile bg-dark ms-auto" onclick="openProfileNav()">
+        <i class="fas fa-user"></i>
+      </button>
     </div>
 
     <div id="mySidebar" class="sidebar bg-dark">
@@ -21,6 +24,12 @@
       <a href="cadastro_cliente.php">Clientes</a>
       <a href="cadastro_usuario.php">Usuário</a>
       <a href="cadastro_produto.php">Produtos</a>
+    </div>
+
+    <div id="profileSidebar" class="sidebar-profile bg-dark">
+      <a href="javascript:void(0)" class="closebtn-profile" onclick="closeProfileNav()">×</a>
+      <a href="perfil.php">Perfil</a>
+      <a href="../controls/logout.php">Sair</a>
     </div>
   </header>
 
@@ -42,6 +51,14 @@
 
       function closeNav() {
           document.getElementById("mySidebar").style.width = "0";
+      }
+
+      function openProfileNav() {
+          document.getElementById("profileSidebar").style.width = "195px";
+      }
+
+      function closeProfileNav() {
+          document.getElementById("profileSidebar").style.width = "0";
       }
   </script>
 </body>
