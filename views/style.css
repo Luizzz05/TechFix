@@ -257,4 +257,12 @@ body {
   width: 100%;
   z-index: 2; /* Certifique-se de que o login-container fique acima do fundo desfocado */
   position: relative; /* Necessário para manter o contexto de empilhamento */
-}
+} 
+
+.status-aberto { background-color: #d4edda; } /* Verde claro */
+
+.status-processo { background-color: #fff3cd; } /* Amarelo claro */
+
+.status-finalizado { background-color: #f8d7da; } /* Vermelho claro */
+
+
