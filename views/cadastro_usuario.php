@@ -31,16 +31,6 @@
                 </div>
             </div>
 
-            <?php
-            function formatCPF($cpf) {
-                return substr($cpf, 0, 3) . '.' . substr($cpf, 3, 3) . '.' . substr($cpf, 6, 3) . '-' . substr($cpf, 9, 2);
-            }
-
-            function formatTelefone($telefone) {
-                return '(' . substr($telefone, 0, 2) . ') ' . substr($telefone, 2, 4) . '-' . substr($telefone, 6, 4);
-            }
-            ?>
-
             <table class='table rounded-table'>
                 <thead>
                     <tr>
@@ -67,11 +57,11 @@
                             echo "<td class='text-center'>" . $row['tipo'] . "</td>";
                             echo "<td class='text-center'>";
                             echo "<div class='d-flex justify-content-center'>";
-                            echo "<button class='btn action-button edit-button me-2' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editClient(" . json_encode($row) . ")'><i class='fas fa-pencil-alt'></i></button> ";
+                            echo "<button class='btn action-button edit-button me-2' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editUser(" . json_encode($row) . ")'><i class='fas fa-pencil-alt'></i></button> ";
                             echo "<form action='../controls/cadastrarUsuario.php' method='POST' style='display:inline-block;'>";
                             echo "<input type='hidden' name='id_usuarios' value='" . $row['id_usuarios'] . "'>";
                             echo "<input type='hidden' name='action' value='delete'>";
-                            echo "<button type='submit' class='btn action-button delete-button' onclick='return confirm(\"Tem certeza que deseja excluir este cliente?\")'><i class='fas fa-times'></i></button>";
+                            echo "<button type='submit' class='btn action-button delete-button' onclick='return confirm(\"Tem certeza que deseja excluir este usuário?\")'><i class='fas fa-times'></i></button>";
                             echo "</form>";
                             echo "</div>";
                             echo "</td>";
@@ -109,15 +99,11 @@
                         <input type="email" class="form-control" id="email" name="email" required>
                       </div>
                       <div class="mb-3">
-                        <label for="senha" class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="senha" name="senha" required>
-                      </div>
-                      <div class="mb-3">
                         <label for="telefone" class="form-label">Telefone</label>
                         <input type="text" class="form-control" id="telefone" name="telefone" required>
                       </div>
                       <div class="mb-3">
-                        <label for="tipo" class="form-label">Tipo</label>
+                        <label for="tipo" class="form-label">Cargo</label>
                         <select class="form-select" id="tipo" name="tipo">
                           <option value="Administrador">Administrador</option>
                           <option value="Técnico">Técnico</option>
@@ -139,7 +125,7 @@
 <!-- jQuery and Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script>
@@ -158,17 +144,11 @@ function editUser(user) {
     document.getElementById('nome').value = user.nome;
     document.getElementById('nome_de_usuario').value = user.nome_de_usuario;
     document.getElementById('email').value = user.email;
-    document.getElementById('senha').value = user.senha;
     document.getElementById('telefone').value = user.telefone;
     document.getElementById('tipo').value = user.tipo;
     document.getElementById('action').value = 'update';
     document.getElementById('exampleModalLabel').innerText = 'Atualizar Usuário';
 }
-
-document.getElementById('userForm').addEventListener('submit', function(event) {
-    var telefoneField = document.getElementById('telefone');
-    telefoneField.value = telefoneField.value.replace(/\D/g, ''); 
-});
 </script>
 
 </body>
