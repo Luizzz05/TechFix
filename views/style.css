@@ -73,7 +73,7 @@
 .sidebar-profile .closebtn-profile {
   position: absolute;
   top: 0;
-  left: 25px; /* Altera para a esquerda */
+  left: 65px; /* Altera para a esquerda */
   font-size: 36px;
   margin-left: 50px;
 }
