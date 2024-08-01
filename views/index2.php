@@ -74,11 +74,11 @@ if(!$result){
                                 <td><?php echo htmlspecialchars($linha['nome']); ?></td>
                                 <td>
                                     <div class='d-flex'>
-                                        <button class='btn btn-primary btn-rounded me-2' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editService(<?php echo json_encode($linha); ?>)'>Atualizar</button>
+                                    <button class='btn action-button edit-button me-2' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editClient(" . json_encode($row) . ")'><i class='fas fa-pencil-alt'></i></button>
                                         <form action='../controls/cadastrarServicos.php' method='POST' style='display:inline-block;'>
                                             <input type='hidden' name='id_servicos' value='<?php echo htmlspecialchars($linha['id_servicos']); ?>'>
                                             <input type='hidden' name='action' value='delete'>
-                                            <button type='submit' class='btn btn-danger btn-rounded' onclick='return confirm("Tem certeza que deseja excluir este serviço?")'>Excluir</button>
+                                            <button type='submit' class='btn action-button delete-button' onclick='return confirm("Tem certeza que deseja excluir este usuário?")'><i class='fas fa-times'></i></button>
                                         </form>
                                     </div>
                                 </td>

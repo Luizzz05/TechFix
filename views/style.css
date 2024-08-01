@@ -160,7 +160,7 @@ body {
   margin-bottom: 20px;
   width: 100%;
   max-width: 750px;
-  z-index: 5;
+  z-index: -1;
 }
 
 .progressbar li {
