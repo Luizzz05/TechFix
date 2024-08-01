@@ -8,12 +8,29 @@ if (!isset($_SESSION['nome_de_usuario'])) {
     exit();
 }
 
-// Recupera os dados do usuário da sessão com verificações
-$nome = isset($_SESSION['nome']) ? $_SESSION['nome'] : 'Nome não definido';
-$nome_de_usuario = isset($_SESSION['nome_de_usuario']) ? $_SESSION['nome_de_usuario'] : 'Usuário não definido';
-$email = isset($_SESSION['email']) ? $_SESSION['email'] : 'Email não definido';
-$telefone = isset($_SESSION['telefone']) ? $_SESSION['telefone'] : 'Telefone não definido';
-$cargo = isset($_SESSION['tipo']) ? $_SESSION['tipo'] : 'Cargo não definido';
+include_once '../models/conexao.php';
+
+$nome_de_usuario = $_SESSION['nome_de_usuario'];
+
+// Recupera os dados do usuário do banco de dados
+$sql = "SELECT * FROM usuarios WHERE nome_de_usuario = '$nome_de_usuario'";
+$resultado = mysqli_query($conn, $sql);
+
+if ($resultado && mysqli_num_rows($resultado) > 0) {
+    $usuario = mysqli_fetch_assoc($resultado);
+    $nome = $usuario['nome'];
+    $email = $usuario['email'];
+    $telefone = $usuario['telefone'];
+    $cargo = $usuario['tipo'];
+} else {
+    // Caso o usuário não seja encontrado
+    $nome = 'Nome não definido';
+    $email = 'Email não definido';
+    $telefone = 'Telefone não definido';
+    $cargo = 'Cargo não definido';
+}
+
+mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -45,23 +62,23 @@ $cargo = isset($_SESSION['tipo']) ? $_SESSION['tipo'] : 'Cargo não definido';
             <div class="card mb-4">
                 <div class="card-header">Detalhes da Conta</div>
                 <div class="card-body">
-                    <form>
+                    <form method="POST" action="atualizarPerfil.php">
                         <!-- Form Group (nome)-->
                         <div class="mb-3">
                             <label class="small mb-1" for="nome">Nome</label>
-                            <input class="form-control" id="nome" type="text" value="<?php echo htmlspecialchars($nome); ?>">
+                            <input class="form-control" id="nome" name="nome" type="text" value="<?php echo htmlspecialchars($nome); ?>">
                         </div>
                         <!-- Form Row-->
                         <div class="row gx-3 mb-3">
                             <!-- Form Group (nome de usuário)-->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="nome_de_usuario">Nome de Usuário</label>
-                                <input class="form-control" id="nome_de_usuario" type="text" value="<?php echo htmlspecialchars($nome_de_usuario); ?>">
+                                <input class="form-control" id="nome_de_usuario" name="nome_de_usuario" type="text" value="<?php echo htmlspecialchars($nome_de_usuario); ?>" disabled>
                             </div>
                             <!-- Form Group (cargo)-->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="tipo">Cargo</label>
-                                <input class="form-control" id="tipo" type="text" value="<?php echo htmlspecialchars($cargo); ?>">
+                                <input class="form-control" id="tipo" name="tipo" type="text" value="<?php echo htmlspecialchars($cargo); ?>" disabled>
                             </div>
                         </div>
                         <!-- Form Row-->
@@ -69,21 +86,21 @@ $cargo = isset($_SESSION['tipo']) ? $_SESSION['tipo'] : 'Cargo não definido';
                             <!-- Form Group (telefone)-->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="telefone">Número de Telefone</label>
-                                <input class="form-control" id="telefone" type="tel" value="<?php echo htmlspecialchars($telefone); ?>">
+                                <input class="form-control" id="telefone" name="telefone" type="tel" value="<?php echo htmlspecialchars($telefone); ?>">
                             </div>
                             <!-- Form Group (email)-->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="email">Email</label>
-                                <input class="form-control" id="email" type="email" value="<?php echo htmlspecialchars($email); ?>">
+                                <input class="form-control" id="email" name="email" type="email" value="<?php echo htmlspecialchars($email); ?>">
                             </div>
                         </div>
                         <!-- Form Group (senha)-->
                         <div class="mb-3">
                             <label class="small mb-1" for="inputPassword">Senha</label>
-                            <input class="form-control" id="inputPassword" type="password" placeholder="Enter new password">
+                            <input class="form-control" id="inputPassword" name="senha" type="password" placeholder="Enter new password">
                         </div>
                         <!-- Save changes button-->
-                        <button class="btn btn-primary" type="button">Salvar alterações</button>
+                        <button class="btn btn-primary" type="submit">Salvar alterações</button>
                     </form>
                 </div>
             </div>

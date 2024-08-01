@@ -101,6 +101,10 @@
                         <input type="email" class="form-control" id="email" name="email" required>
                       </div>
                       <div class="mb-3">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="senha" name="senha" required>
+                      </div>
+                      <div class="mb-3">
                         <label for="telefone" class="form-label">Telefone</label>
                         <input type="text" class="form-control" id="telefone" name="telefone" required>
                       </div>
@@ -146,6 +150,7 @@ function editUser(user) {
     document.getElementById('nome').value = user.nome;
     document.getElementById('nome_de_usuario').value = user.nome_de_usuario;
     document.getElementById('email').value = user.email;
+    document.getElementById('senha').value = user.senha;
     document.getElementById('telefone').value = user.telefone;
     document.getElementById('tipo').value = user.tipo;
     document.getElementById('action').value = 'update';
