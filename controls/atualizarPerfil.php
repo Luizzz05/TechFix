@@ -1,29 +1,41 @@
 <?php
+session_start();
 include_once '../models/conexao.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = isset($_POST['id_cliente']) ? $_POST['id_cliente'] : null;
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Capturando os dados enviados pelo formulário
     $nome = $_POST['nome'];
-    $email = $_POST['email'];
     $telefone = $_POST['telefone'];
-    $endereco = $_POST['endereco'];
+    $email = $_POST['email'];
+    $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
 
-    // Verifica se todos os campos necessários foram enviados
-    if ($id && $nome && $email && $telefone && $endereco) {
-        // Atualiza as informações do cliente
-        $sql = "UPDATE clientes SET nome='$nome', email='$email', telefone='$telefone', endereco='$endereco' WHERE id_cliente=$id";
-        $resultado = mysqli_query($conn, $sql);
-
-        if ($resultado) {
-            header('Location: ../views/cadastro_cliente.php?status=success');
-        } else {
-            header('Location: ../views/cadastro_cliente.php?status=error');
-        }
-    } else {
-        // Se faltar algum campo, redireciona com status de erro
-        header('Location: ../views/cadastro_cliente.php?status=error');
+    // Exibir os dados enviados para depuração
+    echo "Nome: " . htmlspecialchars($nome) . "<br>";
+    echo "Telefone: " . htmlspecialchars($telefone) . "<br>";
+    echo "Email: " . htmlspecialchars($email) . "<br>";
+    if ($senha !== '') {
+        echo "Senha: " . htmlspecialchars($senha) . "<br>";
     }
 
-    exit();
+    // Atualização no banco de dados
+    $nome_de_usuario = $_SESSION['nome_de_usuario'];
+    $sql = "UPDATE usuarios SET nome = '$nome', telefone = '$telefone', email = '$email'";
+
+    // Se a senha foi preenchida, adiciona a atualização da senha
+    if ($senha !== '') {
+        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+        $sql .= ", senha = '$senha_hash'";
+    }
+
+    $sql .= " WHERE nome_de_usuario = '$nome_de_usuario'";
+
+    if (mysqli_query($conn, $sql)) {
+        // Redireciona para perfil.php após a atualização
+        header("Location: ../views/perfil.php");
+        exit();
+    } else {
+        echo "Erro ao atualizar o perfil: " . mysqli_error($conn);
+    }
 }
-?>
+
+mysqli_close($conn);

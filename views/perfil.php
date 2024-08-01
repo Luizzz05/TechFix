@@ -22,6 +22,7 @@ if ($resultado && mysqli_num_rows($resultado) > 0) {
     $email = $usuario['email'];
     $telefone = $usuario['telefone'];
     $cargo = $usuario['tipo'];
+    // Senha não deve ser exibida
 } else {
     // Caso o usuário não seja encontrado
     $nome = 'Nome não definido';
@@ -38,6 +39,23 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .password-container {
+            position: relative;
+        }
+        .password-container input[type="password"],
+        .password-container input[type="text"] {
+            width: 100%;
+            padding-right: 40px; /* Espaço para o ícone */
+        }
+        .password-container .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <div class="container-xl px-4 mt-4">
@@ -62,7 +80,7 @@ mysqli_close($conn);
             <div class="card mb-4">
                 <div class="card-header">Detalhes da Conta</div>
                 <div class="card-body">
-                    <form method="POST" action="atualizarPerfil.php">
+                    <form method="POST" action="../controls/atualizarPerfil.php">
                         <!-- Form Group (nome)-->
                         <div class="mb-3">
                             <label class="small mb-1" for="nome">Nome</label>
@@ -95,9 +113,10 @@ mysqli_close($conn);
                             </div>
                         </div>
                         <!-- Form Group (senha)-->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputPassword">Senha</label>
-                            <input class="form-control" id="inputPassword" name="senha" type="password" placeholder="Enter new password">
+                        <div class="mb-3 password-container">
+                            <label class="small mb-1" for="senha">Senha</label>
+                            <input class="form-control" id="senha" name="senha" type="password" placeholder="Digite uma nova senha">
+                            <i class="fas fa-eye toggle-password" style="padding: 26px 0 0 0;" onclick="togglePasswordVisibility()"></i>
                         </div>
                         <!-- Save changes button-->
                         <button class="btn btn-primary" type="submit">Salvar alterações</button>
@@ -107,5 +126,7 @@ mysqli_close($conn);
         </div>
     </div>
 </div>
+
+<script src="scripts.js"></script>
 </body>
 </html>

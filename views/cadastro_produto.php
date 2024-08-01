@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Produtos</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
 <body class="bg-light text-dark">
 
@@ -62,7 +60,7 @@
                             echo "<td class='text-center'>" . $row['estoque'] . "</td>";
                             echo "<td class='text-center'>";
                             echo "<div class='d-flex justify-content-center'>";
-                            echo "<button class='btn action-button edit-button me-2' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editClient(" . json_encode($row) . ")'><i class='fas fa-pencil-alt'></i></button> ";
+                            echo "<button class='btn action-button edit-button me-2' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='editProduct(" . json_encode($row) . ")'><i class='fas fa-pencil-alt'></i></button>";
                             echo "<form action='../controls/cadastrarProduto.php' method='POST' style='display:inline-block;'>";
                             echo "<input type='hidden' name='id_produto' value='" . $row['id_produto'] . "'>";
                             echo "<input type='hidden' name='action' value='delete'>";
@@ -129,29 +127,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-
-<script>
-function clearForm() {
-    document.getElementById('productForm').reset();
-    document.getElementById('action').value = 'add';
-    document.getElementById('exampleModalLabel').innerText = 'Adicionar Novo Produto';
-}
-
-function editProduct(product) {
-    document.getElementById('id_produto').value = product.id_produto;
-    document.getElementById('nome').value = product.nome;
-    document.getElementById('descricao').value = product.descricao;
-    document.getElementById('preco').value = product.preco;
-    document.getElementById('estoque').value = product.estoque;
-    document.getElementById('action').value = 'update';
-    document.getElementById('exampleModalLabel').innerText = 'Atualizar Produto';
-}
-
-document.getElementById('productForm').addEventListener('submit', function(event) {
-    var precoField = document.getElementById('preco');
-    precoField.value = precoField.value.replace('R$', '').trim().replace(',', '.');
-});
-</script>
+<script src="scripts.js"></script>
 
 </body>
 </html>

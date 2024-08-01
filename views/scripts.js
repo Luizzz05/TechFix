@@ -224,3 +224,157 @@ function showServicoForm() {
     document.getElementById('servicoForm').style.display = 'block';
     updateProgressBar(4);
 }
+
+function togglePasswordVisibility() {
+    var passwordField = document.getElementById('senha');
+    var passwordToggle = document.querySelector('.toggle-password');
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        passwordToggle.classList.remove('fa-eye');
+        passwordToggle.classList.add('fa-eye-slash');
+    } else {
+        passwordField.type = 'password';
+        passwordToggle.classList.remove('fa-eye-slash');
+        passwordToggle.classList.add('fa-eye');
+    }
+}
+
+$(document).ready(function(){
+    $('#telefone').mask('(00) 00000-0000');
+});
+
+function togglePasswordVisibility() {
+    var passwordField = document.getElementById('senha');
+    var passwordToggle = document.querySelector('.toggle-password');
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        passwordToggle.classList.remove('fa-eye');
+        passwordToggle.classList.add('fa-eye-slash');
+    } else {
+        passwordField.type = 'password';
+        passwordToggle.classList.remove('fa-eye-slash');
+        passwordToggle.classList.add('fa-eye');
+    }
+}
+
+function openNav() {
+    closeProfileNav(); // Fecha a barra de perfil se estiver aberta
+    document.getElementById("mySidebar").style.width = "195px";
+}
+
+function closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+}
+
+function openProfileNav() {
+    closeNav(); // Fecha a barra de navegação se estiver aberta
+    document.getElementById("profileSidebar").style.width = "195px";
+}
+
+function closeProfileNav() {
+    document.getElementById("profileSidebar").style.width = "0";
+}
+
+function clearForm() {
+    document.getElementById('serviceForm').reset();
+    document.getElementById('action').value = 'add';
+    document.getElementById('exampleModalLabel').innerText = 'Adicionar Novo Serviço';
+}
+
+function editService(service) {
+    document.getElementById('id_servicos').value = service.id_servicos;
+    document.getElementById('descricao').value = service.descricao;
+    document.getElementById('data_entrada').value = service.data_entrada ? service.data_entrada.split('-').reverse().join('/') : '';
+    document.getElementById('data_prevista').value = service.data_prevista ? service.data_prevista.split('-').reverse().join('/') : '';
+    document.getElementById('data_conclusao').value = service.data_conclusao ? service.data_conclusao.split('-').reverse().join('/') : '';
+    document.getElementById('status').value = service.status;
+    document.getElementById('aparelho').value = service.tipo;
+    document.getElementById('categoria').value = service.nomecat;
+    document.getElementById('complexidade').value = service.complexidade;
+    document.getElementById('tecnico').value = service.nome;
+    document.getElementById('action').value = 'update';
+    document.getElementById('exampleModalLabel').innerText = 'Atualizar Serviço';
+}
+
+
+document.getElementById('serviceForm').addEventListener('submit', function(event) {
+    // Converte as datas para o formato YYYY-MM-DD antes de enviar o formulário
+    document.getElementById('data_entrada').value = document.getElementById('data_entrada').value.split('/').reverse().join('-');
+    document.getElementById('data_prevista').value = document.getElementById('data_prevista').value.split('/').reverse().join('-');
+    if (document.getElementById('data_conclusao').value) {
+        document.getElementById('data_conclusao').value = document.getElementById('data_conclusao').value.split('/').reverse().join('-');
+    }
+});
+
+$(document).ready(function(){
+    $('#telefone').mask('(00) 00000-0000');
+});
+
+function clearForm() {
+    document.getElementById('userForm').reset();
+    document.getElementById('action').value = 'add';
+    document.getElementById('exampleModalLabel').innerText = 'Adicionar Novo Usuário';
+}
+
+function editUser(user) {
+    document.getElementById('id_usuarios').value = user.id_usuarios;
+    document.getElementById('nome').value = user.nome;
+    document.getElementById('nome_de_usuario').value = user.nome_de_usuario;
+    document.getElementById('email').value = user.email;
+    document.getElementById('senha').value = user.senha;
+    document.getElementById('telefone').value = user.telefone;
+    document.getElementById('tipo').value = user.tipo;
+    document.getElementById('action').value = 'update';
+    document.getElementById('exampleModalLabel').innerText = 'Atualizar Usuário';
+}
+
+function clearForm() {
+    document.getElementById('productForm').reset();
+    document.getElementById('action').value = 'add';
+    document.getElementById('exampleModalLabel').innerText = 'Adicionar Novo Produto';
+}
+
+function editProduct(product) {
+    document.getElementById('id_produto').value = product.id_produto;
+    document.getElementById('nome').value = product.nome;
+    document.getElementById('descricao').value = product.descricao;
+    document.getElementById('preco').value = product.preco;
+    document.getElementById('estoque').value = product.estoque;
+    document.getElementById('action').value = 'update';
+    document.getElementById('exampleModalLabel').innerText = 'Atualizar Produto';
+}
+
+document.getElementById('productForm').addEventListener('submit', function(event) {
+    var precoField = document.getElementById('preco');
+    precoField.value = precoField.value.replace('R$', '').trim().replace(',', '.');
+});
+
+$(document).ready(function(){
+    $('#cpf').mask('000.000.000-00');
+    $('#telefone').mask('(00) 00000-0000');
+});
+
+function clearForm() {
+    document.getElementById('clientForm').reset();
+    document.getElementById('action').value = 'add';
+    document.getElementById('exampleModalLabel').innerText = 'Adicionar Novo Cliente';
+}
+
+function editClient(client) {
+    document.getElementById('id_clientes').value = client.id_clientes;
+    document.getElementById('nome').value = client.nome;
+    document.getElementById('telefone').value = client.telefone;
+    document.getElementById('email').value = client.email;
+    document.getElementById('cpf').value = client.cpf;
+    document.getElementById('endereco').value = client.endereco;
+    document.getElementById('action').value = 'update';
+    document.getElementById('exampleModalLabel').innerText = 'Atualizar Cliente';
+}
+
+document.getElementById('clientForm').addEventListener('submit', function(event) {
+    var cpfField = document.getElementById('cpf');
+    cpfField.value = cpfField.value.replace(/\D/g, '');
+
+    var telefoneField = document.getElementById('telefone');
+    telefoneField.value = telefoneField.value.replace(/\D/g, ''); 
+});

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Usuários</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css">
 </head>
 <body class="bg-light text-dark">
 
@@ -134,29 +133,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
-<script>
-$(document).ready(function(){
-    $('#telefone').mask('(00) 00000-0000');
-});
-
-function clearForm() {
-    document.getElementById('userForm').reset();
-    document.getElementById('action').value = 'add';
-    document.getElementById('exampleModalLabel').innerText = 'Adicionar Novo Usuário';
-}
-
-function editUser(user) {
-    document.getElementById('id_usuarios').value = user.id_usuarios;
-    document.getElementById('nome').value = user.nome;
-    document.getElementById('nome_de_usuario').value = user.nome_de_usuario;
-    document.getElementById('email').value = user.email;
-    document.getElementById('senha').value = user.senha;
-    document.getElementById('telefone').value = user.telefone;
-    document.getElementById('tipo').value = user.tipo;
-    document.getElementById('action').value = 'update';
-    document.getElementById('exampleModalLabel').innerText = 'Atualizar Usuário';
-}
-</script>
-
+<script src="scripts.js"></script>
 </body>
 </html>
