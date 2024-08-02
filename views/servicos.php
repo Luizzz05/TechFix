@@ -165,9 +165,10 @@
                     ?>
                 </select>
                 <input type="hidden" name="fk_status_id" value="1">
+                <input type="hidden" id="action" name="action" value="add">
             </div>
             <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-success">Cadastrar Serviço</button>
+                <button type="submit"  class="btn btn-success">Cadastrar Serviço</button>
                 <button type="button" class="btn btn-secondary" onclick="showSelectClientForm()">Cancelar</button>
             </div>
         </form>

@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fk_categoria_id = $_POST['fk_categoria_id'];
     $fk_complexidade_id = $_POST['fk_complexidade_id'];
     $fk_usuarios_id = $_POST['fk_usuarios_id'];
+    $action = $_POST['action'];
     
     // Verifica se a data de conclusão foi fornecida
     $data_conclusao = !empty($_POST['data_conclusao']) ? $_POST['data_conclusao'] : NULL;
@@ -23,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         fk_categoria_id= '$fk_categoria_id', fk_complexidade_id= '$fk_complexidade_id', WHERE fk_ususario_id=$fk_usuarios_id";
 
     } elseif ($action == 'delete') {
-        $sql = "DELETE * FROM servicos WHERE id_servicos=$id";
+        $sql = "DELETE FROM servicos WHERE id_servicos=$id";
     }
     // Adiciona a data de conclusão à query ou NULL, se não fornecida
     $sql .= $data_conclusao ? "'$data_conclusao'" : "NULL";
