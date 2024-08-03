@@ -22,13 +22,14 @@ if ($resultado && mysqli_num_rows($resultado) > 0) {
     $email = $usuario['email'];
     $telefone = $usuario['telefone'];
     $cargo = $usuario['tipo'];
-    // Senha não deve ser exibida
+    $foto_perfil = isset($usuario['foto_perfil']) ? $usuario['foto_perfil'] : ''; // Inicializar $foto_perfil
 } else {
     // Caso o usuário não seja encontrado
     $nome = 'Nome não definido';
     $email = 'Email não definido';
     $telefone = 'Telefone não definido';
     $cargo = 'Cargo não definido';
+    $foto_perfil = ''; // Inicializar $foto_perfil
 }
 
 mysqli_close($conn);
@@ -39,23 +40,7 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        .password-container {
-            position: relative;
-        }
-        .password-container input[type="password"],
-        .password-container input[type="text"] {
-            width: 100%;
-            padding-right: 40px; /* Espaço para o ícone */
-        }
-        .password-container .toggle-password {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
-    </style>
+
 </head>
 <body>
 <div class="container-xl px-4 mt-4">
@@ -64,14 +49,21 @@ mysqli_close($conn);
         <div class="col-xl-4">
             <!-- Profile picture card-->
             <div class="card mb-4 mb-xl-0">
-                <div class="card-header">Profile Picture</div>
+                <div class="card-header">Foto de Perfil</div>
                 <div class="card-body text-center">
                     <!-- Profile icon-->
-                    <i class="fas fa-user-circle fa-7x mb-2"></i>
+                    <?php if ($foto_perfil): ?>
+                        <img src="../uploads/<?php echo htmlspecialchars($foto_perfil); ?>" alt="Foto de Perfil" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;">
+                    <?php else: ?>
+                        <i class="fas fa-user-circle fa-7x mb-2"></i>
+                    <?php endif; ?>
                     <!-- Profile picture help block-->
-                    <div class="small font-italic text-muted mb-4">JPG ou PNG no maior que 5 MB</div>
+                    <div class="small font-italic text-muted mb-4">JPG ou PNG com até 5 MB</div>
                     <!-- Profile picture upload button-->
-                    <button class="btn btn-primary" type="button">Upload nova imagem</button>
+                    <form method="POST" action="../controls/atualizarPerfil.php" enctype="multipart/form-data">
+                        <input class="form-control mb-2" type="file" name="foto_perfil">
+                        <button class="btn btn-primary" type="submit" name="upload_foto">Upload nova imagem</button>
+                    </form>
                 </div>
             </div>
         </div>

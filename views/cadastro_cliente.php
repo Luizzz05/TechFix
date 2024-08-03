@@ -60,7 +60,7 @@
                         while ($row = mysqli_fetch_assoc($resultado)) {
                             echo "<tr>";
                             echo "<td class='text-center'>" . $row['nome'] . "</td>";
-                            echo "<td class='text-center'>" . formatTelefone($row['telefone']) . "</td>"; // Aplicar a formatação aqui
+                            echo "<td class='text-center'>" . $row['telefone'] . "</td>"; // Aplicar a formatação aqui
                             echo "<td class='text-center'>" . $row['email'] . "</td>";
                             echo "<td class='text-center'>" . formatCPF($row['cpf']) . "</td>"; // Aplicar a formatação aqui
                             echo "<td class='text-center'>" . $row['endereco'] . "</td>";
@@ -136,10 +136,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script>
-$(document).ready(function(){
-    $('#cpf').mask('000.000.000-00');
-    $('#telefone').mask('(00) 00000-0000');
-});
 
 function clearForm() {
     document.getElementById('clientForm').reset();
@@ -162,8 +158,7 @@ document.getElementById('clientForm').addEventListener('submit', function(event)
     var cpfField = document.getElementById('cpf');
     cpfField.value = cpfField.value.replace(/\D/g, '');
 
-    var telefoneField = document.getElementById('telefone');
-    telefoneField.value = telefoneField.value.replace(/\D/g, ''); 
+
 });
 </script>
 
