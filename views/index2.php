@@ -3,14 +3,30 @@ include_once '../models/conexao.php';
 include_once 'menu.html';
 session_start();
 
-// Consulta SQL para obter serviços e status
+// Define o número de serviços por página
+$servicos_por_pagina = 10;
+
+// Obtém a página atual a partir do parâmetro GET (se não estiver definido, usa a página 1)
+$pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+$offset = ($pagina_atual - 1) * $servicos_por_pagina;
+
+// Consulta SQL para obter o número total de serviços
+$sql_total = "SELECT COUNT(*) AS total FROM servicos";
+$result_total = mysqli_query($conn, $sql_total);
+$total_servicos = mysqli_fetch_assoc($result_total)['total'];
+
+// Calcula o número total de páginas
+$total_paginas = ceil($total_servicos / $servicos_por_pagina);
+
+// Consulta SQL para obter serviços e status com LIMIT e OFFSET
 $sql = "SELECT ser.id_servicos, ser.descricao, ser.data_entrada, ser.data_prevista, ser.data_conclusao, st.descricao AS status_descricao, ap.tipo, ca.nome as nomecat, pr.complexidade, us.nome 
 FROM servicos ser 
 JOIN status st on st.id_status = ser.fk_status_id 
 JOIN aparelhos ap on ap.id_aparelho = ser.fk_aparelho_id 
 JOIN categoria ca on ca.id_categoria = ser.fk_categoria_id 
 JOIN prazos pr on pr.complexidade = ser.fk_complexidade_id 
-JOIN usuarios us on us.id_usuarios = ser.fk_usuarios_id";
+JOIN usuarios us on us.id_usuarios = ser.fk_usuarios_id
+LIMIT $servicos_por_pagina OFFSET $offset";
 
 $result  = mysqli_query($conn, $sql);
 if (!$result) {
@@ -23,6 +39,7 @@ if (!$result) {
         <div class="col-lg-12">
             <h1 class="text-center">Acompanhamento de Serviços</h1>
             <div style="overflow-x:auto;">
+                <h2>Serviços Dentro do Prazo</h2>
                 <table class="table">
                     <thead>
                         <tr>
@@ -36,53 +53,138 @@ if (!$result) {
                             <th>Categoria</th>
                             <th>Complexidade</th>
                             <th>Técnico</th>
-                            <th>Ações</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         <?php
+                        $current_date = date('Y-m-d');
                         if (mysqli_num_rows($result) > 0) {
                             while ($linha = mysqli_fetch_assoc($result)) {
                                 $data_entrada = date('d/m/Y', strtotime($linha['data_entrada']));
                                 $data_prevista = date('d/m/Y', strtotime($linha['data_prevista']));
                                 $data_conclusao = !empty($linha['data_conclusao']) ? date('d/m/Y', strtotime($linha['data_conclusao'])) : '';
 
-                                // Define a classe da linha com base no status
-                                $row_class = '';
-                                switch ($linha['status_descricao']) {
-                                    case 'Em aberto':
-                                        $row_class = 'status-aberto';
-                                        break;
-                                    case 'Em processamento':
-                                        $row_class = 'status-processo';
-                                        break;
-                                    case 'Finalizado':
-                                        $row_class = 'status-finalizado';
-                                        break;
-                                }
+                                if (strtotime($linha['data_prevista']) >= strtotime($current_date)) {
+                                    // Define a classe da linha com base no status
+                                    $row_class = '';
+                                    switch ($linha['status_descricao']) {
+                                        case 'Em aberto':
+                                            $row_class = 'status-aberto';
+                                            break;
+                                        case 'Em processamento':
+                                            $row_class = 'status-processo';
+                                            break;
+                                        case 'Finalizado':
+                                            $row_class = 'status-finalizado';
+                                            break;
+                                    }
                         ?>
-                                <tr class="<?php echo htmlspecialchars($row_class); ?>">
-                                    <td><?php echo htmlspecialchars($linha['id_servicos']); ?></td>
-                                    <td><?php echo htmlspecialchars($linha['descricao']); ?></td>
-                                    <td><?php echo htmlspecialchars($data_entrada); ?></td>
-                                    <td><?php echo htmlspecialchars($data_prevista); ?></td>
-                                    <td><?php echo htmlspecialchars($data_conclusao); ?></td>
-                                    <td><?php echo htmlspecialchars($linha['status_descricao']); ?></td>
-                                    <td><?php echo htmlspecialchars($linha['tipo']); ?></td>
-                                    <td><?php echo htmlspecialchars($linha['nomecat']); ?></td>
-                                    <td><?php echo htmlspecialchars($linha['complexidade']); ?></td>
-                                    <td><?php echo htmlspecialchars($linha['nome']); ?></td>
-                                    <td>
-                                    </td>
-                                </tr>
+                                    <tr class="<?php echo htmlspecialchars($row_class); ?>">
+                                        <td><?php echo htmlspecialchars($linha['id_servicos']); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['descricao']); ?></td>
+                                        <td><?php echo htmlspecialchars($data_entrada); ?></td>
+                                        <td><?php echo htmlspecialchars($data_prevista); ?></td>
+                                        <td><?php echo htmlspecialchars($data_conclusao); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['status_descricao']); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['tipo']); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['nomecat']); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['complexidade']); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['nome']); ?></td>
+                                        <td></td>
+                                    </tr>
                         <?php
+                                }
                             }
                         }
                         ?>
                     </tbody>
+                </table>
 
+                <h2>Serviços Fora do Prazo</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Descrição</th>
+                            <th>Entrada</th>
+                            <th>Previsão de Entrega</th>
+                            <th>Conclusão</th>
+                            <th>Status</th>
+                            <th>Aparelho</th>
+                            <th>Categoria</th>
+                            <th>Complexidade</th>
+                            <th>Técnico</th>
+                         
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Reinicia a busca para dividir os serviços fora do prazo
+                        mysqli_data_seek($result, 0);
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($linha = mysqli_fetch_assoc($result)) {
+                                $data_entrada = date('d/m/Y', strtotime($linha['data_entrada']));
+                                $data_prevista = date('d/m/Y', strtotime($linha['data_prevista']));
+                                $data_conclusao = !empty($linha['data_conclusao']) ? date('d/m/Y', strtotime($linha['data_conclusao'])) : '';
+
+                                if (strtotime($linha['data_prevista']) < strtotime($current_date)) {
+                                    // Define a classe da linha com base no status
+                                    $row_class = '';
+                                    switch ($linha['status_descricao']) {
+                                        case 'Em aberto':
+                                            $row_class = 'status-aberto';
+                                            break;
+                                        case 'Em processamento':
+                                            $row_class = 'status-processo';
+                                            break;
+                                        case 'Finalizado':
+                                            $row_class = 'status-finalizado';
+                                            break;
+                                    }
+                        ?>
+                                    <tr class="<?php echo htmlspecialchars($row_class); ?>">
+                                        <td><?php echo htmlspecialchars($linha['id_servicos']); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['descricao']); ?></td>
+                                        <td><?php echo htmlspecialchars($data_entrada); ?></td>
+                                        <td><?php echo htmlspecialchars($data_prevista); ?></td>
+                                        <td><?php echo htmlspecialchars($data_conclusao); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['status_descricao']); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['tipo']); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['nomecat']); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['complexidade']); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['nome']); ?></td>
+                                        <td></td>
+                                    </tr>
+                        <?php
+                                }
+                            }
+                        }
+                        ?>
+                    </tbody>
                 </table>
             </div>
+
+            <!-- Paginação -->
+            <nav aria-label="Navegação de página exemplo">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item <?php if($pagina_atual <= 1) echo 'disabled'; ?>">
+                        <a class="page-link" href="?pagina=<?php echo $pagina_atual - 1; ?>" aria-label="Anterior">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <?php for($i = 1; $i <= $total_paginas; $i++): ?>
+                        <li class="page-item <?php if($pagina_atual == $i) echo 'active'; ?>">
+                            <a class="page-link" href="?pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        </li>
+                    <?php endfor; ?>
+                    <li class="page-item <?php if($pagina_atual >= $total_paginas) echo 'disabled'; ?>">
+                        <a class="page-link" href="?pagina=<?php echo $pagina_atual + 1; ?>" aria-label="Próximo">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -130,8 +232,6 @@ if (!$result) {
                                         }
                                         ?>
                                     </select>
-                                    <!-- Adicione as opções de aparelho aqui -->
-
                                 </div>
                                 <div class="mb-3">
                                     <label for="fk_categoria_id">Categoria:</label>
